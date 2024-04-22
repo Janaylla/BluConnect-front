@@ -10,14 +10,16 @@ export interface PropsSelectWithSearch<Value> {
   options: Option<Value>[];
   label?: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<Option<Value> | null>>,
-  selectedOption: Option<Value> | null
+  selectedOption: Option<Value> | null,
+  onInputChange?: (event: React.ChangeEvent<{}>, newInputValue: string) => void;
 }
 
 const SelectWithSearch = <Value,>({
   options,
   label,
   selectedOption,
-  setSelectedOption
+  setSelectedOption,
+  onInputChange,
 }: PropsSelectWithSearch<Value>) => {
   return (
     <>
@@ -32,6 +34,7 @@ const SelectWithSearch = <Value,>({
           <TextField {...params} label={label} variant="outlined" />
         )}
         style={{ marginBottom: 16 }}
+        onInputChange={onInputChange}
       />
     </>
   );

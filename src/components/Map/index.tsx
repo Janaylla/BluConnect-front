@@ -3,11 +3,11 @@ import { LatLng } from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import Routing from "../Rounting";
-import { Coordinator } from "../../types/Coordinator";
+import { BusStop } from "../../request/useBusStop";
 
 interface MapComponent {
-  to?: Coordinator;
-  from?: Coordinator;
+  to?: BusStop;
+  from?: BusStop;
 }
 const MapComponent = ({ from, to }: MapComponent) => {
   const position = new LatLng(-26.9334, -48.9538);

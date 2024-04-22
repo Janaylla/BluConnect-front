@@ -1,36 +1,38 @@
-import L from "leaflet";
-import { createControlComponent } from "@react-leaflet/core";
-import "leaflet-routing-machine";
-import { Coordinator } from "../../types/Coordinator";
-import { ControlOptions } from "leaflet";
-interface RoutingMachineProps extends ControlOptions {
-    to: Coordinator;
-    from: Coordinator;
+import useBusRoute from "../../request/useBusRoute";
+import { BusStop } from "../../request/useBusStop";
+import RoutingMachine from "./RoutineMachineLayer";
+import { useState, useEffect } from "react";
+
+interface RoutingProps {
+  to: BusStop;
+  from: BusStop;
 }
-const createRoutineMachineLayer = ({
-    from,
-    to
-}:RoutingMachineProps) => {
-  const instance = L.Routing.control({
-    waypoints: [
-      L.latLng(to.x, to.y),
-      L.latLng(from.x, from.y)
-    ],
-    lineOptions: {
-      styles: [{ color: "#6FA1EC", weight: 4 }],
-      extendToWaypoints: true,
-      missingRouteTolerance: 100,
-    },
-    show: false,
-    addWaypoints: false,
-    routeWhileDragging: true,
-    fitSelectedRoutes: true,
-    showAlternatives: false
+const Routing = ({ from, to }: RoutingProps) => {
+  const { data: routing, isLoading } = useBusRoute({
+    from_id: from.id,
+    to_id: to.id,
   });
-
-  return instance;
+  const [waypoints, setWaypoints] = useState<Array<[number, number]>>([]);
+  useEffect(() => {
+    if (routing) {
+      console.log(routing);
+      const waypoints: Array<[number, number]> = routing.map((route) => {
+        return [route.startBusStop.latitude, route.startBusStop.longitude];
+      });
+      waypoints.push([
+        routing[routing.length - 1].endBusStop.latitude,
+        routing[routing.length - 1].endBusStop.longitude,
+      ]);
+      console.log(waypoints);
+      setWaypoints(waypoints);
+    }
+  }, [routing]);
+  return (
+    <>
+      {waypoints.length && !isLoading && (
+        <RoutingMachine waypoints={waypoints} />
+      )}
+    </>
+  );
 };
-
-const RoutingMachine = createControlComponent(createRoutineMachineLayer);
-
-export default RoutingMachine;
+export default Routing;
