@@ -6,6 +6,9 @@ import GlobalPage from "../pages/global";
 import CreateBusStop from "../pages/busStop/createBusStop";
 import ListBusStop from "../pages/busStop/listBusStop";
 import EditBusStop from "../pages/busStop/editBusStop";
+import ListTrip from "../pages/trip/listTrip";
+import EditTrip from "../pages/trip/editTrip";
+import CreateTrip from "../pages/trip/createTrip";
 
 export interface CustomRoute {
   path: string;
@@ -53,6 +56,24 @@ const routes: CustomRouteMain[] = [
         label: "Criar Ponto de Ônibus",
         showInMenu: true,
       },
+      {
+        path: "bus-route",
+        Component: ListTrip,
+        label: "Listar Viagens de Ônibus",
+        showInMenu: true,
+      },
+      {
+        path: "bus-route/edit/:id",
+        Component: EditTrip,
+        label: "Editar Viagens de Ônibus",
+        showInMenu: false,
+      },
+      {
+        path: "bus-route/create",
+        Component: CreateTrip,
+        label: "Criar Viagens de Ônibus",
+        showInMenu: true,
+      }
     ],
   },
 ];

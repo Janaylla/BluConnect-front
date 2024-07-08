@@ -8,7 +8,7 @@ interface QueryBusRoute {
 export interface BusRoute { 
   id: number;
   index: number;
-  tripId: string; // Supondo que tripId seja uma string, já que no exemplo está como "tipe"
+  tripId: string;
   startBusStop: BusStop;
   startBusStopId: number;
   endBusStop: BusStop;
@@ -16,7 +16,7 @@ export interface BusRoute {
 }
 const useBusRoute = ({ from_id, to_id }: QueryBusRoute) => {
   return useQuery(`busRoute-${from_id}-${to_id}`, async (): Promise<BusRoute[]> => {
-    const response = await api.get("/bus-routes", {
+    const response = await api.get("/bus-routes/possible-routes", {
       params: { from_id, to_id },
     });
     return response.data;
