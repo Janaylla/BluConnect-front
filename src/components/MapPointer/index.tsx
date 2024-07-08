@@ -9,21 +9,23 @@ import { LatLng } from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import Routing from "../Rounting";
-import { BusStop } from "../../request/busStop/useGetBusStop";
+import { BusStop } from "../../request/busStop/useGetListBusStop";
 
 interface MapComponentProps {
-  to?: BusStop;
   from?: BusStop;
+  to?: BusStop;
+  initialPosition?: LatLng;
   onChangePointer: (p: { lat: number; lng: number }) => void;
   pointer?: LatLng;
 }
 const MapComponent = ({
-  from,
-  to,
+  initialPosition,
   pointer,
   onChangePointer,
+  from,
+  to,
 }: MapComponentProps) => {
-  const position = new LatLng(-26.9334, -48.9538);
+  const position =  initialPosition ||new LatLng(-26.9334, -48.9538);
 
   const ClickHandler = () => {
     useMapEvents({
@@ -37,7 +39,6 @@ const MapComponent = ({
 
     return null;
   };
-  console.log(pointer);
   return (
     <MapContainer
       center={position}

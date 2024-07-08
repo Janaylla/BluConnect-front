@@ -3,8 +3,9 @@ import Home from "../pages/home";
 import About from "../pages/about";
 import BusSchedules from "../pages/busSchedules";
 import GlobalPage from "../pages/global";
-import CreateBusStop from "../pages/createBusStop";
-import ListBusStop from "../pages/listBusStop";
+import CreateBusStop from "../pages/busStop/createBusStop";
+import ListBusStop from "../pages/busStop/listBusStop";
+import EditBusStop from "../pages/busStop/editBusStop";
 
 export interface CustomRoute {
   path: string;
@@ -41,8 +42,8 @@ const routes: CustomRouteMain[] = [
         showInMenu: true,
       },
       {
-        path: "bus-stop/:id",
-        Component: CreateBusStop,
+        path: "bus-stop/edit/:id",
+        Component: EditBusStop,
         label: "Editar Ponto de Ônibus",
         showInMenu: false,
       },

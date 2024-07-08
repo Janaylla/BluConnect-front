@@ -1,36 +1,11 @@
 import { Box, Button, TextField } from "@mui/material";
-import MapPointerComponent from "../../components/MapPointer";
+import MapPointerComponent from "../../../components/MapPointer";
 import { useEffect, useState } from "react";
 import { LatLng } from "leaflet";
-import { useCreateBusStop } from "../../request/busStop/useCreateBusStop";
-export interface BusStopForm {
-  name: string;
-  latitude: number;
-  longitude: number;
-}
-interface BusForm {
-  label: string;
-  required: boolean;
-  type: "number" | "text";
-}
-const busForm: Record<keyof BusStopForm, BusForm> = {
-  name: {
-    label: "Nome",
-    required: true,
-    type: "text",
-  },
-  latitude: {
-    label: "Latitude",
-    required: true,
-    type: "number",
-  },
-  longitude: {
-    label: "Longitude",
-    required: true,
-    type: "number",
-  },
-};
-const ListBusStop = () => {
+import { useCreateBusStop } from "../../../request/busStop/useCreateBusStop";
+import { BusStopForm, busForm } from "../busStop.type";
+
+const CreateBusStop = () => {
   const [form, setForm] = useState<BusStopForm>({
     latitude: 0,
     longitude: 0,
@@ -46,7 +21,7 @@ const ListBusStop = () => {
       setPointer(new LatLng(form.latitude, form.longitude));
     }
   }, [form]);
-  const ListBusStop = async (event: React.FormEvent<HTMLFormElement>) => {
+  const CreateBusStop = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     createBusStop(form);
   };
@@ -60,7 +35,7 @@ const ListBusStop = () => {
         }}
       />
 
-      <form onSubmit={ListBusStop}>
+      <form onSubmit={CreateBusStop}>
         <Box marginY={2} gap={2} display={"flex"}>
           {Object.entries(busForm).map(([key, value]) => (
             <TextField
@@ -84,4 +59,4 @@ const ListBusStop = () => {
     </Box>
   );
 };
-export default ListBusStop;
+export default CreateBusStop;

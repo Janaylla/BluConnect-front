@@ -3,7 +3,7 @@ import { LatLng } from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import Routing from "../Rounting";
-import { BusStop } from "../../request/busStop/useGetBusStop";
+import { BusStop } from "../../request/busStop/useGetListBusStop";
 
 interface MapComponentProps {
   to?: BusStop;

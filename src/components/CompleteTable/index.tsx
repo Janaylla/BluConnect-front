@@ -27,13 +27,13 @@ interface CompleteTableProps<Type> {
     key: string;
   }>;
   useDelete: () => UseMutationResult<any, unknown, number, unknown>;
-  editAction: (id: number) => void;
+  path: string;
 }
 export default function CompleteTable<Type>({
   columns,
   useDelete,
-  editAction,
   useGetData,
+  path,
 }: CompleteTableProps<Type>) {
   const [page, setPage] = useState(1);
   const { mutate: _delete } = useDelete();
@@ -74,7 +74,7 @@ export default function CompleteTable<Type>({
                 <TableCell align="right">
                   <IconButton
                     aria-label="edit"
-                    onClick={() => editAction(line.id)}
+                    href={`./${path}/edit/${line.id}`}
                   >
                     <Edit />
                   </IconButton>

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import { api } from "../axios";
 import { useToast } from "../../components/Toast/Toast";
-import { BusStopForm } from "../../pages/createBusStop";
+import { BusStopForm } from "../../pages/busStop/busStop.type";
 
 export const useCreateBusStop = () => {
   const queryClient = useQueryClient();
