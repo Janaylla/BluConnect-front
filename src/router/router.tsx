@@ -57,19 +57,19 @@ const routes: CustomRouteMain[] = [
         showInMenu: true,
       },
       {
-        path: "bus-route",
+        path: "trip",
         Component: ListTrip,
         label: "Listar Viagens de Ônibus",
         showInMenu: true,
       },
       {
-        path: "bus-route/edit/:id",
+        path: "trip/edit/:id",
         Component: EditTrip,
         label: "Editar Viagens de Ônibus",
         showInMenu: false,
       },
       {
-        path: "bus-route/create",
+        path: "trip/create",
         Component: CreateTrip,
         label: "Criar Viagens de Ônibus",
         showInMenu: true,

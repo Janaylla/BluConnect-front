@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from "@mui/material";
-import MapPointerComponent from "../../../components/MapPointer";
+import MapPointerComponent from "../../../components/MapPointers";
 import { useEffect, useState } from "react";
 import { LatLng } from "leaflet";
 import { useParams } from "react-router-dom";

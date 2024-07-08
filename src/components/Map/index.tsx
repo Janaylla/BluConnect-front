@@ -3,13 +3,11 @@ import { LatLng } from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import Routing from "../Rounting";
-import { BusStop } from "../../request/busStop/useGetListBusStop";
 
 interface MapComponentProps {
-  to?: BusStop;
-  from?: BusStop;
+  waypoints: [number, number][];
 }
-const MapComponent = ({ from, to }: MapComponentProps) => {
+const MapComponent = ({  waypoints }: MapComponentProps) => {
   const position = new LatLng(-26.9334, -48.9538);
 
   return (
@@ -32,7 +30,7 @@ const MapComponent = ({ from, to }: MapComponentProps) => {
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker> */}
-      {from && to && <Routing from={from} to={to}  />}
+      <Routing waypoints={waypoints} />
     </MapContainer>
   );
 };

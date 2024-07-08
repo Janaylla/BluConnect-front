@@ -1,9 +1,9 @@
 import { Box, Button, TextField } from "@mui/material";
-import MapPointerComponent from "../../../components/MapPointer";
 import { useEffect, useState } from "react";
 import { LatLng } from "leaflet";
 import { useCreateBusStop } from "../../../request/busStop/useCreateBusStop";
 import { BusStopForm, busForm } from "../busStop.type";
+import MapPointers from "../../../components/MapPointers";
 
 const CreateBusStop = () => {
   const [form, setForm] = useState<BusStopForm>({
@@ -28,7 +28,7 @@ const CreateBusStop = () => {
 
   return (
     <Box>
-      <MapPointerComponent
+      <MapPointers
         pointer={pointer}
         onChangePointer={(p) => {
           setForm({ ...form, latitude: p.lat, longitude: p.lng });

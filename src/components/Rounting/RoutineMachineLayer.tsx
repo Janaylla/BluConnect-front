@@ -6,6 +6,7 @@ interface RoutingMachineProps extends ControlOptions {
   waypoints: Array<[number, number]>;
 }
 const createRoutineMachineLayer = ({ waypoints }: RoutingMachineProps) => {
+  console.log('createRoutineMachineLayer', waypoints);
   //   const waypoints = [
   //     [-26.9176083, -49.0592754],
   //     [-26.914261, -49.0582297],

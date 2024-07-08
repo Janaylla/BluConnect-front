@@ -9,9 +9,9 @@ export interface Option<Value> {
 export interface PropsSelectWithSearch<Value> {
   options: Option<Value>[];
   label?: string;
-  setSelectedOption: React.Dispatch<React.SetStateAction<Option<Value> | null>>,
-  selectedOption: Option<Value> | null,
+  selectedOption: Option<Value> | null;
   onInputChange?: (event: React.ChangeEvent<{}>, newInputValue: string) => void;
+  setSelectedOption: (value: Option<Value> | null) => void;
 }
 
 const SelectWithSearch = <Value,>({
@@ -22,21 +22,18 @@ const SelectWithSearch = <Value,>({
   onInputChange,
 }: PropsSelectWithSearch<Value>) => {
   return (
-    <>
-      <Autocomplete
-        value={selectedOption}
-        onChange={(event, newValue) => {
-          setSelectedOption(newValue);
-        }}
-        options={options}
-        getOptionLabel={(option) => option.label}
-        renderInput={(params) => (
-          <TextField {...params} label={label} variant="outlined" />
-        )}
-        style={{ marginBottom: 16 }}
-        onInputChange={onInputChange}
-      />
-    </>
+    <Autocomplete
+      value={selectedOption}
+      onChange={(event, newValue) => {
+        setSelectedOption(newValue);
+      }}
+      options={options}
+      getOptionLabel={(option) => option.label}
+      renderInput={(params) => (
+        <TextField {...params} label={label} variant="outlined" />
+      )}
+      onInputChange={onInputChange}
+    />
   );
 };
 

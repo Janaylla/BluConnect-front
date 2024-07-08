@@ -20,12 +20,14 @@ export interface OutputData<Type> {
   rows: Array<Type>;
   count: number;
 }
+export interface CompleteTableColumn {
+  title: string;
+  key: string;
+  transform?: (value: any) => string | number | JSX.Element | undefined;
+}
 interface CompleteTableProps<Type> {
   useGetData: (query: Query) => UseQueryResult<OutputData<Type>, unknown>;
-  columns: Array<{
-    title: string;
-    key: string;
-  }>;
+  columns: Array<CompleteTableColumn>;
   useDelete: () => UseMutationResult<any, unknown, number, unknown>;
   path: string;
 }
@@ -66,9 +68,9 @@ export default function CompleteTable<Type>({
                 key={line.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                {columns.map((column) => (
-                  <TableCell key={column.key} component="th" scope="row">
-                    {line[column.key]}
+                {columns.map(({ key, transform }) => (
+                  <TableCell key={key} component="th" scope="row">
+                    {transform ? transform(line) : line[key]}
                   </TableCell>
                 ))}
                 <TableCell align="right">

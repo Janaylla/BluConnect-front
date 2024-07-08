@@ -9,28 +9,25 @@ import { LatLng } from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import Routing from "../Rounting";
-import { BusStop } from "../../request/busStop/useGetListBusStop";
 
-interface MapComponentProps {
-  from?: BusStop;
-  to?: BusStop;
+interface MapPointersProps {
   initialPosition?: LatLng;
-  onChangePointer: (p: { lat: number; lng: number }) => void;
+  onChangePointer?: (p: { lat: number; lng: number }) => void;
   pointer?: LatLng;
+  waypoints?: Array<[number, number]>;
 }
-const MapComponent = ({
+const MapPointers = ({
   initialPosition,
   pointer,
   onChangePointer,
-  from,
-  to,
-}: MapComponentProps) => {
-  const position =  initialPosition ||new LatLng(-26.9334, -48.9538);
+  waypoints,
+}: MapPointersProps) => {
+  const position = initialPosition || new LatLng(-26.9334, -48.9538);
 
   const ClickHandler = () => {
     useMapEvents({
       click(e) {
-        onChangePointer({
+        onChangePointer && onChangePointer({
           lat: e.latlng.lat,
           lng: e.latlng.lng,
         });
@@ -54,7 +51,7 @@ const MapComponent = ({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {from && to && <Routing from={from} to={to} />}
+      {waypoints?.length && <Routing waypoints={waypoints} />}
       <ClickHandler />
       {pointer && (
         <Marker position={pointer}>
@@ -67,4 +64,4 @@ const MapComponent = ({
   );
 };
 
-export default MapComponent;
+export default MapPointers;

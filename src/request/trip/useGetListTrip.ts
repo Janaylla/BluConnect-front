@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { api } from "../axios";
 import { OutputData } from "../../components/CompleteTable";
+import { BusRoute } from "../busRoute/useBusRoute";
 interface QueryTrip {
   search: string;
   page: number;
@@ -8,9 +9,8 @@ interface QueryTrip {
 }
 export interface Trip {
   id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
+  code: string;
+  busRoutes: BusRoute[];
 }
 const useGetListTrip = ({ search, limit, page }: QueryTrip) => {
   return useQuery([`trip`, search], async (): Promise<OutputData<Trip>> => {

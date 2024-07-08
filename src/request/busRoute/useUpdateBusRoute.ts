@@ -1,33 +1,33 @@
 import { useMutation, useQueryClient } from "react-query";
+import { BusRouteForm } from "../../pages/busRoute/busRoute.type";
 import { api } from "../axios";
 import { useToast } from "../../components/Toast/Toast";
 import { useNavigate } from "react-router-dom";
-import { TripBody } from "../../pages/trip/trip.type";
 
-const updateTrip = async ({
+const updateBusRoute = async ({
   id,
   form,
 }: {
   id: string;
-  form: TripBody;
+  form: BusRouteForm;
 }) => {
-  const response = await api.put(`/trips/${id}`, form);
+  const response = await api.put(`/bus-routes/${id}`, form);
   return response.data;
 };
 
-export const useUpdateTrip = () => {
+export const useUpdateBusRoute = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const navigate = useNavigate();
-  return useMutation(updateTrip, {
+  return useMutation(updateBusRoute, {
     onSuccess: () => {
-      queryClient.invalidateQueries("trips");
+      queryClient.invalidateQueries("busRoutes");
       toast({
         title: "Ponto de ônibus atualizado com sucesso",
         message: "O ponto de ônibus foi atualizado com sucesso",
         type: "success",
       });
-      navigate("/admin/trip");
+      navigate("/admin/bus-route");
     },
     onError: (error: any) => {
       toast({
