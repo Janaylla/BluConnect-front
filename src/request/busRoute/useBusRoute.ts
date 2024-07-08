@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { api } from "./axios";
-import { BusStop } from "./useBusStop";
+import { api } from "../axios";
+import { BusStop } from "../busStop/useBusStop";
 interface QueryBusRoute {
   from_id: number;
   to_id: number;

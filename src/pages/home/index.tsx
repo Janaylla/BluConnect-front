@@ -1,8 +1,8 @@
 import MapComponent from "../../components/Map";
-import { Option } from "../../components/select/SelectWithSearch";
+import { Option } from "../../components/Select/SelectWithSearch";
 import { useState } from "react";
-import SelectToAndFrom from "../../components/select/SelectToAndFrom";
-import { BusStop } from "../../request/useBusStop";
+import SelectToAndFrom from "../../components/Select/SelectToAndFrom";
+import { BusStop } from "../../request/busStop/useBusStop";
 
 const Home = () => {
   const [from, setFrom] = useState<Option<BusStop> | null>(null);

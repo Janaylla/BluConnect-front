@@ -1,5 +1,5 @@
 import SelectWithSearch, { Option } from "../SelectWithSearch";
-import useBusStop, { BusStop } from "../../../request/useBusStop";
+import useBusStop, { BusStop } from "../../../request/busStop/useBusStop";
 import { useState } from "react";
 const SelectToAndFrom = ({
   label,
@@ -11,7 +11,7 @@ const SelectToAndFrom = ({
   setValue: React.Dispatch<React.SetStateAction<Option<BusStop> | null>>;
 }) => {
   const [search, setSearch] = useState("");
-  const { data } = useBusStop({ search });
+  const { data } = useBusStop({ search, limit: 10, page: 1 });
   return (
     <>
       <SelectWithSearch

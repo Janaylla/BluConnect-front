@@ -6,16 +6,16 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { CustomRoute, routes } from "../../router/router";
+import { CustomRouteMain } from "../../router/router";
 import ResponsiveMenu from "../../components/Menu";
 import { useState } from "react";
 const drawerWidth = 240;
 
-function ResponsiveDrawer(props: {
-  window?: () => Window;
-  routes: CustomRoute[];
+interface ResponsiveDrawerProps {
   children: React.ReactNode;
-}) {
+  routes: CustomRouteMain[];
+}
+function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -65,7 +65,7 @@ function ResponsiveDrawer(props: {
         }}
       >
         <Toolbar />
-        {props.children}
+        {children}
       </Box>
     </Box>
   );
