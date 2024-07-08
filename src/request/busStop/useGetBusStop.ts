@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import { api } from "../axios";
+import { OutputData } from "../../components/CompleteTable";
 interface QueryBusStop {
   search: string;
   page: number;
@@ -11,8 +12,8 @@ export interface BusStop {
   latitude: number;
   longitude: number;
 }
-const useBusStop = ({ search, limit, page }: QueryBusStop) => {
-  return useQuery(`busStop-${search}`, async (): Promise<BusStop[]> => {
+const useGetBusStop = ({ search, limit, page }: QueryBusStop) => {
+  return useQuery([`busStop`, search], async (): Promise<OutputData<BusStop>> => {
     const response = await api.get("/bus-stops", {
       params: {
         search,
@@ -23,4 +24,4 @@ const useBusStop = ({ search, limit, page }: QueryBusStop) => {
     return response.data;
   });
 };
-export default useBusStop;
+export default useGetBusStop;

@@ -1,6 +1,7 @@
-import SelectWithSearch, { Option } from "../SelectWithSearch";
+
 import useGetBusStop, { BusStop } from "../../../request/busStop/useGetBusStop";
 import { useState } from "react";
+import SelectWithSearch, { Option } from "../../Select/SelectWithSearch";
 const SelectToAndFrom = ({
   label,
   setValue,
@@ -19,7 +20,7 @@ const SelectToAndFrom = ({
         selectedOption={value}
         setSelectedOption={setValue}
         label={label}
-        onInputChange={(_, newInputValue) => {
+        onInputChange={(__: any, newInputValue: string) => {
           setSearch(newInputValue);
         }}
       />

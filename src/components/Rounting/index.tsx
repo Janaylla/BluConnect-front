@@ -1,7 +1,7 @@
 
 
 import useBusRoute from "../../request/busRoute/useBusRoute";
-import { BusStop } from "../../request/busStop/useBusStop";
+import { BusStop } from "../../request/busStop/useGetBusStop";
 import RoutingMachine from "./RoutineMachineLayer";
 import { useState, useEffect } from "react";
 
