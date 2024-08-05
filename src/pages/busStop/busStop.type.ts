@@ -1,15 +1,12 @@
+import { Form } from "../../types/Form";
+
 export interface BusStopForm {
   name: string;
   latitude: number;
   longitude: number;
 }
 
-interface BusForm {
-  label: string;
-  required: boolean;
-  type: "number" | "text";
-}
-export const busForm: Record<keyof BusStopForm, BusForm> = {
+export const busForm: Form<BusStopForm> = {
   name: {
     label: "Nome",
     required: true,

@@ -1,10 +1,10 @@
 import MapComponent from "../../components/Map";
-import { Option } from "../../components/Select/SelectWithSearch";
 import { useEffect, useState } from "react";
-import SelectToAndFrom from "../../components/Select/SelectToAndFrom";
 import { BusStop } from "../../request/busStop/useGetListBusStop";
 import useBusRoute from "../../request/busRoute/useBusRoute";
 import { Box } from "@mui/material";
+import { Option } from "../../components/Select/SelectWithSearch";
+import SelectToAndFrom from "../../components/SelectToAndFrom";
 
 const Home = () => {
   const [from, setFrom] = useState<Option<BusStop> | null>(null);

@@ -9,6 +9,8 @@ import EditBusStop from "../pages/busStop/editBusStop";
 import ListTrip from "../pages/trip/listTrip";
 import EditTrip from "../pages/trip/editTrip";
 import CreateTrip from "../pages/trip/createTrip";
+import EditTravelSchedule from "../pages/travelSchedule/editTravelSchedule";
+import CreateTravelSchedule from "../pages/travelSchedule/createTravelSchedule";
 
 export interface CustomRoute {
   path: string;
@@ -73,7 +75,25 @@ const routes: CustomRouteMain[] = [
         Component: CreateTrip,
         label: "Criar Viagens de Ônibus",
         showInMenu: true,
-      }
+      },
+      {
+        path: "travel-schedule",
+        Component: ListTrip,
+        label: "Listar os Horários dos Ônibus",
+        showInMenu: true,
+      },
+      {
+        path: "travel-schedule/edit/:id",
+        Component: EditTravelSchedule,
+        label: "Editar os Horários dos Ônibus",
+        showInMenu: false,
+      },
+      {
+        path: "travel-schedule/create",
+        Component: CreateTravelSchedule,
+        label: "Criar os Horários dos Ônibus",
+        showInMenu: true,
+      },
     ],
   },
 ];
