@@ -1,32 +1,20 @@
-import useBusRoute from "../../request/useBusRoute";
-import { BusStop } from "../../request/useBusStop";
 import RoutingMachine from "./RoutineMachineLayer";
 import { useState, useEffect } from "react";
 
 interface RoutingProps {
-  to: BusStop;
-  from: BusStop;
+  waypoints: Array<[number, number]>;
 }
-const Routing = ({ from, to }: RoutingProps) => {
-  const { data: routing, isLoading } = useBusRoute({
-    from_id: from.id,
-    to_id: to.id,
-  });
-  const [waypoints, setWaypoints] = useState<Array<[number, number]>>([]);
+const Routing = ({ waypoints }: RoutingProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    if (routing) {
-      console.log(routing);
-      const waypoints: Array<[number, number]> = routing.map((route) => {
-        return [route.startBusStop.latitude, route.startBusStop.longitude];
-      });
-      waypoints.push([
-        routing[routing.length - 1].endBusStop.latitude,
-        routing[routing.length - 1].endBusStop.longitude,
-      ]);
-      console.log(waypoints);
-      setWaypoints(waypoints);
-    }
-  }, [routing]);
+    setIsLoading(true); 
+    const timeout = setTimeout(() => {
+      setIsLoading(false); 
+    }, 1000); 
+    return () => clearTimeout(timeout); 
+  }, [waypoints]);
+
   return (
     <>
       {waypoints.length && !isLoading && (
