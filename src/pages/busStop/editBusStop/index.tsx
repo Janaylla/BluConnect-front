@@ -3,13 +3,13 @@ import MapPointerComponent from "../../../components/MapPointers";
 import { useEffect, useState } from "react";
 import { LatLng } from "leaflet";
 import { useParams } from "react-router-dom";
-import { BusStopForm, busForm } from "../busStop.type";
+import { BusStopFormTemplate, busFormTemplate } from "../busStop.type";
 import { useGetBusStop } from "../../../request/busStop/useGetBusStop";
 import { useUpdateBusStop } from "../../../request/busStop/useUpdateBusStop";
 
 const EditBusStop = () => {
   const { id } = useParams<{ id: string }>(); // Obtém o ID da URL
-  const [form, setForm] = useState<BusStopForm>({
+  const [form, setForm] = useState<BusStopFormTemplate>({
     latitude: 0,
     longitude: 0,
     name: "",
@@ -59,7 +59,7 @@ const EditBusStop = () => {
 
       <form onSubmit={handleSubmit}>
         <Box marginY={2} gap={2} display={"flex"}>
-          {Object.entries(busForm).map(([key, value]) => (
+          {Object.entries(busFormTemplate).map(([key, value]) => (
             <TextField
               fullWidth
               size="small"
@@ -69,7 +69,7 @@ const EditBusStop = () => {
               required={value.required}
               type={value.type}
               name={key}
-              value={form[key as keyof BusStopForm]}
+              value={form[key as keyof BusStopFormTemplate]}
               onChange={handleChange}
             />
           ))}

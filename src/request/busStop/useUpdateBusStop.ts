@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
-import { BusStopForm } from "../../pages/busStop/busStop.type";
+import { BusStopFormTemplate } from "../../pages/busStop/busStop.type";
 import { api } from "../axios";
 import { useToast } from "../../components/Toast/Toast";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ const updateBusStop = async ({
   form,
 }: {
   id: string;
-  form: BusStopForm;
+  form: BusStopFormTemplate;
 }) => {
   const response = await api.put(`/bus-stops/${id}`, form);
   return response.data;

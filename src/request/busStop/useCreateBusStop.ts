@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "react-query";
 import { api } from "../axios";
 import { useToast } from "../../components/Toast/Toast";
-import { BusStopForm } from "../../pages/busStop/busStop.type";
+import { BusStopFormTemplate } from "../../pages/busStop/busStop.type";
 
 export const useCreateBusStop = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   return useMutation(
-    async (data: BusStopForm) => {
+    async (data: BusStopFormTemplate) => {
       const response = await api.post("/bus-stops", data);
       return response.data;
     },

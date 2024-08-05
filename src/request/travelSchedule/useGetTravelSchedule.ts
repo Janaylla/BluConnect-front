@@ -2,7 +2,8 @@ import { useQuery } from 'react-query';
 import { api } from '../axios';
 
 const getTravelSchedule = async (id: string) => {
-  const response = await api.get(`/bus-stops/${id}`);
+  if (!id) return;
+  const response = await api.get(`/travel-schedule/${id}`);
   return response.data;
 };
 

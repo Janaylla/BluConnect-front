@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/home";
 import About from "../pages/about";
-import BusSchedules from "../pages/busSchedules";
 import GlobalPage from "../pages/global";
 import CreateBusStop from "../pages/busStop/createBusStop";
 import ListBusStop from "../pages/busStop/listBusStop";
@@ -9,9 +8,8 @@ import EditBusStop from "../pages/busStop/editBusStop";
 import ListTrip from "../pages/trip/listTrip";
 import EditTrip from "../pages/trip/editTrip";
 import CreateTrip from "../pages/trip/createTrip";
-import EditTravelSchedule from "../pages/travelSchedule/editTravelSchedule";
-import CreateTravelSchedule from "../pages/travelSchedule/createTravelSchedule";
-
+import CreateOrEditTravelSchedule from "../pages/travelSchedule/createOrEditTravelSchedule";
+import ListTravelSchedule from "../pages/travelSchedule/listTravelSchedule";
 export interface CustomRoute {
   path: string;
   Component: () => JSX.Element;
@@ -28,13 +26,13 @@ const routes: CustomRouteMain[] = [
     path: "",
     routes: [
       { path: "", Component: Home, label: "Home", showInMenu: true },
-      { path: "about", Component: About, label: "Sobre Nós", showInMenu: true },
       {
         path: "bus-schedules",
-        Component: BusSchedules,
+        Component: () => <ListTravelSchedule commonUser={true}/>,
         label: "Horários dos Ônubus",
         showInMenu: true,
       },
+      { path: "about", Component: About, label: "Sobre Nós", showInMenu: true },
     ],
   },
   {
@@ -78,19 +76,19 @@ const routes: CustomRouteMain[] = [
       },
       {
         path: "travel-schedule",
-        Component: ListTrip,
+        Component: () => <ListTravelSchedule commonUser={false}/>,
         label: "Listar os Horários dos Ônibus",
         showInMenu: true,
       },
       {
         path: "travel-schedule/edit/:id",
-        Component: EditTravelSchedule,
+        Component: CreateOrEditTravelSchedule,
         label: "Editar os Horários dos Ônibus",
         showInMenu: false,
       },
       {
         path: "travel-schedule/create",
-        Component: CreateTravelSchedule,
+        Component: CreateOrEditTravelSchedule,
         label: "Criar os Horários dos Ônibus",
         showInMenu: true,
       },

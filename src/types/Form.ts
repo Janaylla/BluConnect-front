@@ -1,8 +1,12 @@
 
-interface Input {
+export interface InputForm {
     label: string;
     required: boolean;
     type: "time" | "text" | "select" | "number" | "boolean";
+    component?: (p: {
+        label: string;
+        setValue: (id: string | number) => void;
+    }) => JSX.Element
 }
 
-export type Form<InputsTypes> = Record<keyof InputsTypes, Input> 
+export type FormTemplate<InputsTypes> = Record<keyof InputsTypes, InputForm> 

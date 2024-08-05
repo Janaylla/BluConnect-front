@@ -1,12 +1,12 @@
-import { Form } from "../../types/Form";
+import { FormTemplate } from "../../types/Form";
 
-export interface BusStopForm {
+export interface BusStopFormTemplate {
   name: string;
   latitude: number;
   longitude: number;
 }
 
-export const busForm: Form<BusStopForm> = {
+export const busFormTemplate: FormTemplate<BusStopFormTemplate> = {
   name: {
     label: "Nome",
     required: true,

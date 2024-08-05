@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { CustomRouteMain } from "../../router/router";
 import Toolbar from "@mui/material/Toolbar";
 import { Box, Drawer } from "@mui/material";
+import { useEffect, useState } from "react";
 const drawerWidth = 240;
 
 interface MenuProps {
@@ -24,6 +25,11 @@ function ResponsiveMenu({
     setIsClosing(true);
     setMobileOpen(false);
   };
+  const [selectedRoute, setSelectedRoute] = useState('');
+
+  useEffect(() => {
+    setSelectedRoute(window.location.href);
+  }, [window.location.href]);
 
   const handleDrawerTransitionEnd = () => {
     setIsClosing(false);
@@ -46,8 +52,12 @@ function ResponsiveMenu({
                 routeChildren.path;
               return (
                 <ListItem key={routeChildren.path} disablePadding>
-                  <ListItemButton component="a" href={href}>
-                    <ListItemText primary={routeChildren.label} />
+                  <ListItemButton
+                    sx={{
+                      backgroundColor: selectedRoute === href ? 'lightgrey' : 'transparent',
+                    }} component="a" href={href}>
+                    <ListItemText primary={routeChildren.label
+                    } />
                   </ListItemButton>
                 </ListItem>
               );

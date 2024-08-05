@@ -2,11 +2,11 @@ import { Box, Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { LatLng } from "leaflet";
 import { useCreateBusStop } from "../../../request/busStop/useCreateBusStop";
-import { BusStopForm, busForm } from "../busStop.type";
+import { BusStopFormTemplate, busFormTemplate } from "../busStop.type";
 import MapPointers from "../../../components/MapPointers";
 
 const CreateBusStop = () => {
-  const [form, setForm] = useState<BusStopForm>({
+  const [form, setForm] = useState<BusStopFormTemplate>({
     latitude: 0,
     longitude: 0,
     name: "",
@@ -37,7 +37,7 @@ const CreateBusStop = () => {
 
       <form onSubmit={CreateBusStop}>
         <Box marginY={2} gap={2} display={"flex"}>
-          {Object.entries(busForm).map(([key, value]) => (
+          {Object.entries(busFormTemplate).map(([key, value]) => (
             <TextField
               fullWidth
               size="small"
@@ -47,7 +47,7 @@ const CreateBusStop = () => {
               required={value.required}
               type={value.type}
               name={key}
-              value={form[key as keyof BusStopForm]}
+              value={form[key as keyof BusStopFormTemplate]}
               onChange={handleChange}
             />
           ))}

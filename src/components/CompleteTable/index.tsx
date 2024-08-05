@@ -30,12 +30,13 @@ interface CompleteTableProps<Type> {
   columns: Array<CompleteTableColumn>;
   useDelete: () => UseMutationResult<any, unknown, number, unknown>;
   path: string;
+  commonUser?: boolean;
 }
 export default function CompleteTable<Type>({
   columns,
   useDelete,
   useGetData,
-  path,
+  path, commonUser
 }: CompleteTableProps<Type>) {
   const [page, setPage] = useState(1);
   const { mutate: _delete } = useDelete();
@@ -59,7 +60,10 @@ export default function CompleteTable<Type>({
               {columns.map((column) => (
                 <TableCell key={column.key}>{column.title}</TableCell>
               ))}
-              <TableCell align="right"></TableCell>
+              {
+                !commonUser &&
+                <TableCell align="right"></TableCell>
+              }
             </TableRow>
           </TableHead>
           <TableBody>
@@ -73,20 +77,23 @@ export default function CompleteTable<Type>({
                     {transform ? transform(line) : line[key]}
                   </TableCell>
                 ))}
-                <TableCell align="right">
-                  <IconButton
-                    aria-label="edit"
-                    href={`./${path}/edit/${line.id}`}
-                  >
-                    <Edit />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => handleOpen(line.id)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </TableCell>
+                {
+                  !commonUser &&
+                  <TableCell align="right">
+                    <IconButton
+                      aria-label="edit"
+                      href={`./${path}/edit/${line.id}`}
+                    >
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => handleOpen(line.id)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </TableCell>}
+
               </TableRow>
             ))}
           </TableBody>

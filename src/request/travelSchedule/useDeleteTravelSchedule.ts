@@ -7,12 +7,12 @@ export const useDeleteTravelSchedule = () => {
   const queryClient = useQueryClient();
   return useMutation(
     async (id: number) => {
-      await api.delete(`/bus-stops/${id}`);
+      await api.delete(`/travel-schedule/${id}`);
     },
     {
         onError: (error: any) => {
             toast({
-                title: "Erro ao deletar ponto de ônibus",
+                title: "Erro ao deletar ponto de ônitravel",
                 message: error.response.data.message,
                 type: "error",
             });
@@ -20,8 +20,8 @@ export const useDeleteTravelSchedule = () => {
         onSuccess: () => {
             queryClient.invalidateQueries("travelSchedule");
             toast({
-                title: "Ponto de ônibus deletado com sucesso",
-                message: "O ponto de ônibus foi deletado com sucesso",
+                title: "Ponto de ônitravel deletado com sucesso",
+                message: "O ponto de ônitravel foi deletado com sucesso",
                 type: "success",
             });
         }

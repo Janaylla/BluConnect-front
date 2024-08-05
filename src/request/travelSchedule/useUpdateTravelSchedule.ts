@@ -11,7 +11,7 @@ const updateTravelSchedule = async ({
   id: string;
   form: TravelScheduleForm;
 }) => {
-  const response = await api.put(`/bus-stops/${id}`, form);
+  const response = await api.put(`/travel-schedule/${id}`, form);
   return response.data;
 };
 
@@ -23,15 +23,15 @@ export const useUpdateTravelSchedule = () => {
     onSuccess: () => {
       queryClient.invalidateQueries("travelSchedules");
       toast({
-        title: "Ponto de ônibus atualizado com sucesso",
-        message: "O ponto de ônibus foi atualizado com sucesso",
+        title: "Ponto de ônitravel atualizado com sucesso",
+        message: "O ponto de ônitravel foi atualizado com sucesso",
         type: "success",
       });
-      navigate("/admin/bus-stop");
+      navigate("/admin/travel-stop");
     },
     onError: (error: any) => {
       toast({
-        title: "Erro ao atualizar ponto de ônibus",
+        title: "Erro ao atualizar ponto de ônitravel",
         message: error.response.data.message,
         type: "error",
       });

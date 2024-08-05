@@ -1,7 +1,9 @@
-import { Form } from "../../types/Form";
+import SelectTrip from "../../components/SelectTrip";
+import { FormTemplate } from "../../types/Form";
+
 
 export interface TravelScheduleForm {
-  time: number;
+  time: string | number;
   monday: boolean;
   tuesday: boolean;
   wednesday: boolean;
@@ -11,17 +13,27 @@ export interface TravelScheduleForm {
   sunday: boolean;
   tripId: number;
 }
+export function secondsToHHMM(seconds: number) {
+  const totalMinutes = Math.floor(seconds / 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
 
-export const busForm: Form<TravelScheduleForm> = {
+  const formattedHours = String(hours).padStart(2, '0');
+  const formattedMinutes = String(minutes).padStart(2, '0');
+
+  return `${formattedHours}:${formattedMinutes}`;
+}
+export const travelScheduleFormTemplate: FormTemplate<TravelScheduleForm> = {
   time: {
     label: 'Horário',
     required: true,
     type: 'time'
   },
   tripId: {
-    label: 'a',
+    label: 'Viagem',
     required: true,
-    type: 'select'
+    type: 'select',
+    component: SelectTrip
   },
   monday: {
     label: 'Seg',
@@ -58,5 +70,5 @@ export const busForm: Form<TravelScheduleForm> = {
     required: true,
     type: 'boolean'
   }
-  
+
 };

@@ -1,4 +1,4 @@
-import { Form } from "../../types/Form";
+import { FormTemplate } from "../../types/Form";
 
 export interface BusRouteForm {
   index: number;
@@ -6,7 +6,7 @@ export interface BusRouteForm {
   endBusStopId: number;
 }
 
-export const busForm: Form<BusRouteForm> = {
+export const busForm: FormTemplate<BusRouteForm> = {
   index: {
     label: "Índice",
     required: true,
