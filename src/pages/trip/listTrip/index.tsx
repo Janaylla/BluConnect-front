@@ -10,28 +10,19 @@ const columns: CompleteTableColumn[] = [
     title: "Ponto inicial",
     key: "startBusStop",
     transform: (value: Trip) => value.busRoutes[0]?.startBusStop?.name,
-    ComponentFilter: () => {
-      return <>
-      </>
-    }
+    notFilter: true,
   },
   {
     title: "Ponto final",
     key: "endBusStop",
     transform: (value: Trip) => value.busRoutes[value.busRoutes.length - 1]?.endBusStop?.name,
-    ComponentFilter: () => {
-      return <>
-      </>
-    }
+    notFilter: true,
   },
   {
     title: "Quantidade de paradas",
     key: "busRoutesQuantidade",
     transform: (value: Trip) => (value.busRoutes?.length + 1).toString(),
-    ComponentFilter: () => {
-      return <>
-      </>
-    }
+    notFilter: true,
   },
 ];
 export default function ListTrip() {

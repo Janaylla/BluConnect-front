@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField, IconButton } from "@mui/material";
+import { Box, Button, TextField, IconButton, styled } from "@mui/material";
 import MapPointers from "../../../components/MapPointers";
 import { useParams } from "react-router-dom";
 import SelectToAndFrom from "../../../components/Select/SelectToAndFrom";
@@ -140,6 +140,7 @@ const CreatOrEditTrip = () => {
 
     if (isLoading && id) return <div>Carregando...</div>;
 
+
     return (
         <Box>
             <MapPointers waypoints={waypoints} />
@@ -175,22 +176,42 @@ const CreatOrEditTrip = () => {
                                     alignItems={"center"}
                                     key={busStop.key}
                                 >
-                                    <Box display={"flex"} flexDirection={"column"} width={"100%"}>
-                                        <SelectToAndFrom
-                                            setValue={(value: BusStop | null) => {
-                                                if (value) {
-                                                    setForm({
-                                                        ...form,
-                                                        busStops: {
-                                                            ...form.busStops,
-                                                            [busStop.key]: value,
-                                                        },
-                                                    });
-                                                }
-                                            }}
-                                            label={`Parada de ônibus ${index + 1}`}
-                                            key={busStop.key}
-                                        />
+                                    <Box display={"flex"} gap={2} flexDirection={"row"} width={"100%"}>
+                                        <Box flexGrow={1}>
+                                            <SelectToAndFrom
+                                                setValue={(value: BusStop | null) => {
+                                                    if (value) {
+                                                        setForm({
+                                                            ...form,
+                                                            busStops: {
+                                                                ...form.busStops,
+                                                                [busStop.key]: value,
+                                                            },
+                                                        });
+                                                    }
+                                                }}
+                                                label={`Parada de ônibus ${index + 1}`}
+                                                key={busStop.key}
+                                            />
+                                        </Box>
+                                        <p style={
+                                            {
+                                                alignContent: 'center'
+                                            }
+                                        }>
+                                            Tempo + 
+                                             paradas
+                                        </p>
+                                        <Box >
+                                            <TextField
+                                                fullWidth
+                                                size="medium"
+                                                id="outlined-basic"
+                                                required={true}
+                                                type={'time'}
+                                                onChange={handleChange}
+                                            />
+                                        </Box>
                                     </Box>
                                     <IconButton
                                         aria-label="delete"

@@ -32,6 +32,7 @@ export interface CompleteTableColumn {
     setSearchs: (value: any, key: string) => void,
   }) => JSX.Element;
   tranformFilterValue?: (value: any) => string | number;
+  notFilter?: boolean;
 }
 interface CompleteTableProps<Type> {
   useGetData: (query: QuerySearch) => UseQueryResult<OutputData<Type>, unknown>;
@@ -83,7 +84,7 @@ export default function CompleteTable<Type>({
                 return (
                   <TableCell
                     style={{
-                      cursor: 'pointer',
+                      cursor: column.notFilter ? 'initial' : 'pointer',
                     }}
                     key={column.key}>
                     <span
@@ -97,7 +98,10 @@ export default function CompleteTable<Type>({
                           }
                         }
                         onClick={
-                          () => onOrder(column.key)
+                          () => {
+                            if (!column.notFilter)
+                              onOrder(column.key)
+                          }
                         }
                       >
                         {column.title}
@@ -109,7 +113,8 @@ export default function CompleteTable<Type>({
                       </span>
                       <span>
                         {
-                          column.ComponentFilter ? <column.ComponentFilter
+                          !column.notFilter &&
+                          (column.ComponentFilter ? <column.ComponentFilter
                             setSearch={
                               (value) => setSearchs({
                                 ...searchs,
@@ -130,7 +135,7 @@ export default function CompleteTable<Type>({
                               ...searchs,
                               [column.key]: column.tranformFilterValue ? column.tranformFilterValue(e.target.value) : e.target.value
                             })}
-                          />
+                          />)
                         }
                       </span>
                     </span>

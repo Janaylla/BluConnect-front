@@ -38,22 +38,19 @@ export const weeks: Record<string, string> = {
 }
 
 export const FilterHHMMComponent = ({ setSearchs }: { setSearchs: (v: any, key: string) => void }) => {
-  return <>
-    <Box display={'flex'} gap={1}>
+  return <Box display={'flex'} gap={1}>
 
-      <TextField
-        type="time"
-        size="small"
-        variant="standard"
-        onChange={(e) => setSearchs(HHMMToSeconds(e.target.value), 'time_from')}
-      />
-      <p>Até</p>
-      <TextField
-        type="time"
-        size="small"
-        variant="standard"
-        onChange={(e) => setSearchs(HHMMToSeconds(e.target.value), 'time_to')}
-      /></Box>
-
-  </>
+    <TextField
+      type="time"
+      size="small"
+      variant="standard"
+      onChange={(e) => setSearchs(HHMMToSeconds(e.target.value), 'time_from')}
+    />
+    <p>Até</p>
+    <TextField
+      type="time"
+      size="small"
+      variant="standard"
+      onChange={(e) => setSearchs(HHMMToSeconds(e.target.value), 'time_to')}
+    /></Box>
 }
