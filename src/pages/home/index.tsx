@@ -18,13 +18,8 @@ const Home = () => {
   useEffect(() => {
     if (routing) {
       const waypoints: Array<[number, number]> = routing.map((route) => {
-        return [route?.startBusStop?.latitude ?? 0, route?.startBusStop?.longitude ?? 0];
+        return [route?.busStop?.latitude ?? 0, route?.busStop?.longitude ?? 0];
       });
-      if (routing.length > 0)
-        waypoints.push([
-          routing[routing.length - 1]?.endBusStop?.latitude ?? 0,
-          routing[routing.length - 1]?.endBusStop?.longitude ?? 0,
-        ]);
       setWaypoints(waypoints);
     }
   }, [routing]);

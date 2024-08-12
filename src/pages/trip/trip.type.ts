@@ -2,10 +2,13 @@ import { BusRoute } from "../../request/busRoute/useBusRoute";
 import { BusStop } from "../../request/busStop/useGetListBusStop";
 export interface TripForm {
   code: string;
-  busStops: Record<string, BusStop>;
+  busStops: Record<string, {
+    busStop: BusStop,
+    avaregeTimePlus: string;
+  }>;
 }
 
-export interface TripBody{
+export interface TripBody {
   code: string;
   routes: BusRoute[];
 }
