@@ -8,14 +8,15 @@ export interface BusRoute {
   latitude: number;
   longitude: number;
 }
-const useGetListBusRoute = ({ search, limit, page, order = '', searchs = {} }: QuerySearch) => {
-  return useQuery([`busRoute`, search, limit, page, order, Object.values(search)], async (): Promise<OutputData<BusRoute>> => {
+const useGetListBusRoute = ({ search, limit, page, order = '', searchs = {}, asc = 'asc' }: QuerySearch) => {
+  return useQuery([`busRoute`, search, limit, page, order, asc, Object.values(search)], async (): Promise<OutputData<BusRoute>> => {
     const response = await api.get("/bus-routes", {
       params: {
         search,
         limit,
         page,
         order,
+        asc,
         ...searchs
       },
     });

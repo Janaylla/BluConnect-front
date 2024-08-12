@@ -8,18 +8,30 @@ const columns: CompleteTableColumn[] = [
   },
   {
     title: "Ponto inicial",
-    key: "latitude",
+    key: "startBusStop",
     transform: (value: Trip) => value.busRoutes[0]?.startBusStop?.name,
+    ComponentFilter: () => {
+      return <>
+      </>
+    }
   },
   {
     title: "Ponto final",
-    key: "logitude",
+    key: "endBusStop",
     transform: (value: Trip) => value.busRoutes[value.busRoutes.length - 1]?.endBusStop?.name,
+    ComponentFilter: () => {
+      return <>
+      </>
+    }
   },
   {
     title: "Quantidade de paradas",
-    key: "logitude",
+    key: "busRoutesQuantidade",
     transform: (value: Trip) => (value.busRoutes?.length + 1).toString(),
+    ComponentFilter: () => {
+      return <>
+      </>
+    }
   },
 ];
 export default function ListTrip() {

@@ -29,8 +29,7 @@ const columns: CompleteTableColumn[] = [
   },
   {
     title: "Viagem",
-    key: 'code',
-    transform: (value: TravelSchedule) => value.trip?.code
+    key: 'trip.code',
   },
   {
     title: "Seg",

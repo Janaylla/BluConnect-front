@@ -8,14 +8,15 @@ export interface BusStop {
   latitude: number;
   longitude: number;
 }
-const useGetListBusStop = ({ search, limit, page, order = '', searchs = {} }: QuerySearch) => {
-  return useQuery([`busStop`, search, limit, page, order, Object.values(searchs)], async (): Promise<OutputData<BusStop>> => {
+const useGetListBusStop = ({ search, limit, page, order = '', searchs = {}, asc = 'asc' }: QuerySearch) => {
+  return useQuery([`busStop`, search, limit, page, order, asc, Object.values(searchs)], async (): Promise<OutputData<BusStop>> => {
     const response = await api.get("/bus-stops", {
       params: {
         search,
         limit,
         page,
         order,
+        asc,
         ...searchs
       },
     });

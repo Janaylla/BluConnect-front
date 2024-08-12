@@ -17,6 +17,7 @@ export interface QuerySearch {
   page: number;
   order?: string;
   searchs?: Record<string, any>
+  asc?: string;
 }
 export interface OutputData<Type> {
   rows: Array<Type>;
@@ -52,19 +53,19 @@ export default function CompleteTable<Type>({
   };
   const limit = 10;
   const [order, setOrder] = useState(columns[0]?.key);
-  const [asc, setAsc] = useState<'ASC' | 'DESC'>('ASC')
+  const [asc, setAsc] = useState<'asc' | 'desc'>('asc')
   const [searchs, setSearchs] = useState<Record<string, any>>({});
-  const { data } = useGetData({ search: "", limit, page, searchs });
+  const { data } = useGetData({ search: "", limit, page, searchs, order, asc });
   const { handleClose, handleOpen, idDelete } = useDialogDelete();
 
   const onOrder = (key: string) => {
     if (key === order) {
       setAsc(
-        asc === 'ASC' ? 'DESC' : 'ASC'
+        asc === 'asc' ? 'desc' : 'asc'
       )
     } else {
       setOrder(key)
-      setAsc('ASC')
+      setAsc('asc')
     }
   }
   return (
@@ -102,7 +103,7 @@ export default function CompleteTable<Type>({
                         {column.title}
                         {
                           column.key === order && (
-                            asc === 'ASC' ? <ArrowDropDown /> : <ArrowDropUp />
+                            asc === 'asc' ? <ArrowDropDown /> : <ArrowDropUp />
                           )
                         }
                       </span>
@@ -143,35 +144,49 @@ export default function CompleteTable<Type>({
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.rows?.map((line: any) => (
-              <TableRow
-                key={line.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                {columns.map(({ key, transform }) => (
-                  <TableCell key={key} component="th" scope="row">
-                    {transform ? transform(line) : line[key]}
-                  </TableCell>
-                ))}
-                {
-                  !commonUser &&
-                  <TableCell align="right">
-                    <IconButton
-                      aria-label="edit"
-                      href={`./${path}/edit/${line.id}`}
-                    >
-                      <Edit />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => handleOpen(line.id)}
-                    >
-                      <Delete />
-                    </IconButton>
-                  </TableCell>}
+            {data?.rows?.map((line: any) => {
 
-              </TableRow>
-            ))}
+              return (
+                <TableRow
+                  key={line.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  {columns.map(({ key, transform }) => {
+
+                    let currentValue: Record<string, any> = line;
+                    const orders = key.split('.');
+                    console.log('order', order)
+                    for (let i = 0; i < orders.length; i++) {
+                      const key = orders[i];
+                      currentValue = currentValue[key]
+                    }
+
+                    return (
+                      <TableCell key={key} component="th" scope="row">
+                        {transform ? transform(line) : String(currentValue)}
+                      </TableCell>
+                    )
+                  })}
+                  {
+                    !commonUser &&
+                    <TableCell align="right">
+                      <IconButton
+                        aria-label="edit"
+                        href={`./${path}/edit/${line.id}`}
+                      >
+                        <Edit />
+                      </IconButton>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => handleOpen(line.id)}
+                      >
+                        <Delete />
+                      </IconButton>
+                    </TableCell>}
+
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </TableContainer>

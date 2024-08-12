@@ -14,14 +14,15 @@ export interface TravelSchedule {
   tripId: number;
   trip: Trip;
 }
-const useGetListTravelSchedule = ({ search, limit, page, order = '', searchs = {} }: QuerySearch) => {
-  return useQuery([`travelSchedule`, search, limit, page, order, Object.values(searchs)], async (): Promise<OutputData<TravelSchedule>> => {
+const useGetListTravelSchedule = ({ search, limit, page, order = '', searchs = {}, asc = 'asc' }: QuerySearch) => {
+  return useQuery([`travelSchedule`, search, limit, page, order, asc, Object.values(searchs)], async (): Promise<OutputData<TravelSchedule>> => {
     const response = await api.get("/travel-schedule", {
       params: {
         search,
         limit,
         page,
         order,
+        asc,
         ...searchs
       },
     });
