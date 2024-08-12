@@ -1,5 +1,6 @@
 import { Box, Button, Checkbox, FormControlLabel, TextField } from "@mui/material"
 import { FormTemplate, InputForm } from "../../types/Form"
+import SelectWithSearch from "../Select/SelectWithSearch";
 
 interface FormProps<T, Form> {
     formTemplate: FormTemplate<T>,
@@ -36,7 +37,7 @@ export default function Form<T, Form>({
             >
                 {
                     Object.entries(formTemplate).map((v: any) => {
-                        const [key, value]: [keyof Form & string, InputForm] = v;
+                        const [key, value]: [keyof Form & string, InputForm<any>] = v;
                         switch (value.type) {
                             case "boolean":
                                 return <>
@@ -53,12 +54,23 @@ export default function Form<T, Form>({
                                 </>
 
                             case 'select':
-                                const Component = value.component;
-                                if (Component) {
-                                    return <Component label={value.label} setValue={(id) => setForm({
-                                        ...form,
-                                        [key]: id
-                                    })} />;
+                                const select = value.select;
+                                if (select) {
+                                    const { getLabelByValue, useGetData, getIdByValue } = select
+                                    return (
+                                        <SelectWithSearch
+                                            getLabelByValue={getLabelByValue}
+                                            setValue={
+                                                (v) => setForm({
+                                                    ...form,
+                                                    [key]: getIdByValue ? getIdByValue(v) : v?.id 
+                                                })
+                                            }
+                                            useGetData={useGetData}
+                                            key={key}
+                                            label={value.label}
+                                        />
+                                    )
                                 }
                                 break;
                             default:

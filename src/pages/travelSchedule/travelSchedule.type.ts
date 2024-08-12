@@ -1,4 +1,6 @@
 import SelectTrip from "../../components/SelectTrip";
+import useGetListTrip from "../../request/trip/useGetListTrip";
+import { useGetTrip } from "../../request/trip/useGetTrip";
 import { FormTemplate } from "../../types/Form";
 
 
@@ -33,7 +35,10 @@ export const travelScheduleFormTemplate: FormTemplate<TravelScheduleForm> = {
     label: 'Viagem',
     required: true,
     type: 'select',
-    component: SelectTrip
+    select: {
+      getLabelByValue: (v) => v.name,
+      useGetData: useGetListTrip,
+    }
   },
   monday: {
     label: 'Seg',

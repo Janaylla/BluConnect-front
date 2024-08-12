@@ -3,16 +3,15 @@ import { useEffect, useState } from "react";
 import { BusStop } from "../../request/busStop/useGetListBusStop";
 import useBusRoute from "../../request/busRoute/useBusRoute";
 import { Box } from "@mui/material";
-import { Option } from "../../components/Select/SelectWithSearch";
-import SelectToAndFrom from "../../components/SelectToAndFrom";
+import SelectToAndFrom from "../../components/Select/SelectToAndFrom";
 
 const Home = () => {
-  const [from, setFrom] = useState<Option<BusStop> | null>(null);
-  const [to, setTo] = useState<Option<BusStop> | null>(null);
+  const [from, setFrom] = useState<BusStop| null>(null);
+  const [to, setTo] = useState<BusStop | null>(null);
 
   const { data: routing } = useBusRoute({
-    from_id: from?.value.id,
-    to_id: to?.value.id,
+    from_id: from?.id,
+    to_id: to?.id,
   });
 
   const [waypoints, setWaypoints] = useState<Array<[number, number]>>([]);
@@ -35,8 +34,8 @@ const Home = () => {
       flexDirection={"column"}
       gap='10px'
     >
-      <SelectToAndFrom setValue={setFrom} value={from} label="De" />
-      <SelectToAndFrom setValue={setTo} value={to} label="Para" />
+      <SelectToAndFrom setValue={setFrom} label="De" />
+      <SelectToAndFrom setValue={setTo} label="Para" />
       <MapComponent waypoints={waypoints}/>
     </Box>
   );

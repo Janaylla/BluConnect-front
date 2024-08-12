@@ -11,7 +11,7 @@ import { UseMutationResult, UseQueryResult } from "react-query";
 import { useState } from "react";
 import DialogDelete, { useDialogDelete } from "../DialogDelete";
 
-interface Query {
+export interface QuerySearch {
   search: string;
   limit: number;
   page: number;
@@ -26,7 +26,7 @@ export interface CompleteTableColumn {
   transform?: (value: any) => string | number | JSX.Element | undefined;
 }
 interface CompleteTableProps<Type> {
-  useGetData: (query: Query) => UseQueryResult<OutputData<Type>, unknown>;
+  useGetData: (query: QuerySearch) => UseQueryResult<OutputData<Type>, unknown>;
   columns: Array<CompleteTableColumn>;
   useDelete: () => UseMutationResult<any, unknown, number, unknown>;
   path: string;
