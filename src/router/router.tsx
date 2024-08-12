@@ -2,9 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/home";
 import About from "../pages/about";
 import GlobalPage from "../pages/global";
-import CreateBusStop from "../pages/busStop/createBusStop";
+import CreateOrUpdateBusStop from "../pages/busStop/createOrEditBusStop";
 import ListBusStop from "../pages/busStop/listBusStop";
-import EditBusStop from "../pages/busStop/editBusStop";
 import ListTrip from "../pages/trip/listTrip";
 import CreateOrEditTravelSchedule from "../pages/travelSchedule/createOrEditTravelSchedule";
 import ListTravelSchedule from "../pages/travelSchedule/listTravelSchedule";
@@ -45,13 +44,13 @@ const routes: CustomRouteMain[] = [
       },
       {
         path: "bus-stop/edit/:id",
-        Component: EditBusStop,
+        Component: CreateOrUpdateBusStop,
         label: "Editar Ponto de Ônibus",
         showInMenu: false,
       },
       {
         path: "bus-stop/create",
-        Component: CreateBusStop,
+        Component: CreateOrUpdateBusStop,
         label: "Criar Ponto de Ônibus",
         showInMenu: true,
       },

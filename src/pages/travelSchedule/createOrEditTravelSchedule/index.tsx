@@ -1,11 +1,12 @@
-import { Box } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { secondsToHHMM, TravelScheduleForm, travelScheduleFormTemplate } from "../travelSchedule.type";
+import { HHMMToSeconds, secondsToHHMM, TravelScheduleForm, weeks } from "../travelSchedule.type";
 import { useGetTravelSchedule } from "../../../request/travelSchedule/useGetTravelSchedule";
 import { useUpdateTravelSchedule } from "../../../request/travelSchedule/useUpdateTravelSchedule";
-import Form from "../../../components/Form";
 import { useCreateTravelSchedule } from "../../../request/travelSchedule/useCreateTravelSchedule";
+import SelectWithSearch from "../../../components/Select/SelectWithSearch";
+import useGetListTrip, { Trip } from "../../../request/trip/useGetListTrip";
 
 const CreateOrEditTravelSchedule = () => {
   const { id } = useParams<{ id: string }>(); // Obtém o ID da URL
@@ -24,7 +25,7 @@ const CreateOrEditTravelSchedule = () => {
   const { mutate: updateTravelSchedule } = useUpdateTravelSchedule();
   const { mutate: creteTravelShedule } = useCreateTravelSchedule()
   useEffect(() => {
-    if(travelSchedule){
+    if (travelSchedule) {
       setForm({
         ...travelSchedule,
         time: secondsToHHMM(travelSchedule.time)
@@ -32,11 +33,9 @@ const CreateOrEditTravelSchedule = () => {
     }
   }, [travelSchedule])
   const handleSubmit = async () => {
-    const [h, m] = String(form.time).split(':')
-    const time = +h * 60 * 60 + +m * 60
     const body = {
       ...form,
-      time
+      time: HHMMToSeconds(String(form.time))
     }
     if (id) {
       updateTravelSchedule({ id, form: body });
@@ -45,16 +44,69 @@ const CreateOrEditTravelSchedule = () => {
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
   if (isLoading && id) return <div>Carregando...</div>;
 
   return (
     <Box>
-      <Form
-        form={form}
-        formTemplate={travelScheduleFormTemplate}
-        handleSubmit={handleSubmit}
-        setForm={setForm}
-      />
+      <form onSubmit={handleSubmit}>
+        <Box
+          display={'flex'}
+          flexDirection={'column'}
+          rowGap={'20px'}
+        >
+          <TextField
+            size="medium"
+            key={'time'}
+            id="outlined-basic"
+            label={'Horário'}
+            required={true}
+            type={'time'}
+            name={'time'}
+            value={form.time}
+            onChange={handleChange}
+          />
+          <SelectWithSearch
+            getLabelByValue={(t: Trip) => t.code}
+            setValue={(v) => {
+              setForm({ ...form, 'tripId': v?.id || 0 });
+            }}
+            useGetData={useGetListTrip}
+            label="Viagem"
+          />
+          <Box>
+            <p>
+              Semanas:
+            </p>
+            {
+              Object.entries(weeks).map(([key, label]: [any, string]) => {
+                const value = form as any
+                return <FormControlLabel control={
+                  <Checkbox
+                    checked={!!value[key]}
+                    onChange={
+                      (e) => setForm({
+                        ...form,
+                        [key]: !value[key]
+                      })
+                    }
+                  />} label={label} />
+              })
+            }
+          </Box>
+          <Box
+            alignSelf={'center'}
+          >
+            <Button
+              size="large" type="submit" variant="contained">
+              Salvar
+            </Button>
+
+          </Box>
+        </Box>
+      </form>
     </Box>
   );
 };

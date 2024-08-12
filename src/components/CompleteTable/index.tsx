@@ -5,8 +5,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, IconButton, Pagination } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import { Box, IconButton, Input, Pagination } from "@mui/material";
+import { ArrowDropDown, ArrowDropUp, Delete, Edit } from "@mui/icons-material";
 import { UseMutationResult, UseQueryResult } from "react-query";
 import { useState } from "react";
 import DialogDelete, { useDialogDelete } from "../DialogDelete";
@@ -15,6 +15,8 @@ export interface QuerySearch {
   search: string;
   limit: number;
   page: number;
+  order?: string;
+  searchs?: Record<string, any>
 }
 export interface OutputData<Type> {
   rows: Array<Type>;
@@ -24,6 +26,11 @@ export interface CompleteTableColumn {
   title: string;
   key: string;
   transform?: (value: any) => string | number | JSX.Element | undefined;
+  ComponentFilter?: (p: {
+    setSearch: (value: any) => void,
+    setSearchs: (value: any, key: string) => void,
+  }) => JSX.Element;
+  tranformFilterValue?: (value: any) => string | number;
 }
 interface CompleteTableProps<Type> {
   useGetData: (query: QuerySearch) => UseQueryResult<OutputData<Type>, unknown>;
@@ -44,8 +51,22 @@ export default function CompleteTable<Type>({
     setPage(value);
   };
   const limit = 10;
-  const { data } = useGetData({ search: "", limit, page });
+  const [order, setOrder] = useState(columns[0]?.key);
+  const [asc, setAsc] = useState<'ASC' | 'DESC'>('ASC')
+  const [searchs, setSearchs] = useState<Record<string, any>>({});
+  const { data } = useGetData({ search: "", limit, page, searchs });
   const { handleClose, handleOpen, idDelete } = useDialogDelete();
+
+  const onOrder = (key: string) => {
+    if (key === order) {
+      setAsc(
+        asc === 'ASC' ? 'DESC' : 'ASC'
+      )
+    } else {
+      setOrder(key)
+      setAsc('ASC')
+    }
+  }
   return (
     <Box
       gap={"10px"}
@@ -57,9 +78,64 @@ export default function CompleteTable<Type>({
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead style={{ backgroundColor: "#c5c5c5" }}>
             <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.key}>{column.title}</TableCell>
-              ))}
+              {columns.map((column) => {
+                return (
+                  <TableCell
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                    key={column.key}>
+                    <span
+                    >
+
+                      <span
+                        style={
+                          {
+                            display: 'flex',
+                            alignItems: 'center'
+                          }
+                        }
+                        onClick={
+                          () => onOrder(column.key)
+                        }
+                      >
+                        {column.title}
+                        {
+                          column.key === order && (
+                            asc === 'ASC' ? <ArrowDropDown /> : <ArrowDropUp />
+                          )
+                        }
+                      </span>
+                      <span>
+                        {
+                          column.ComponentFilter ? <column.ComponentFilter
+                            setSearch={
+                              (value) => setSearchs({
+                                ...searchs,
+                                [column.key]: value
+                              })
+
+                            }
+                            setSearchs={(value, key) => {
+                              setSearchs({
+                                ...searchs,
+                                [key]: value
+                              })
+                            }}
+                          /> : <Input style={{
+                            width: '60px'
+                          }} size="small"
+                            onChange={(e) => setSearchs({
+                              ...searchs,
+                              [column.key]: column.tranformFilterValue ? column.tranformFilterValue(e.target.value) : e.target.value
+                            })}
+                          />
+                        }
+                      </span>
+                    </span>
+                  </TableCell>
+                )
+              })}
               {
                 !commonUser &&
                 <TableCell align="right"></TableCell>

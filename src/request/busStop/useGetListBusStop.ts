@@ -1,24 +1,22 @@
 import { useQuery } from "react-query";
 import { api } from "../axios";
-import { OutputData } from "../../components/CompleteTable";
-interface QueryBusStop {
-  search: string;
-  page: number;
-  limit: number;
-}
+import { OutputData, QuerySearch } from "../../components/CompleteTable";
+
 export interface BusStop {
   id: number;
   name: string;
   latitude: number;
   longitude: number;
 }
-const useGetListBusStop = ({ search, limit, page }: QueryBusStop) => {
-  return useQuery([`busStop`, search], async (): Promise<OutputData<BusStop>> => {
+const useGetListBusStop = ({ search, limit, page, order = '', searchs = {} }: QuerySearch) => {
+  return useQuery([`busStop`, search, limit, page, order, Object.values(searchs)], async (): Promise<OutputData<BusStop>> => {
     const response = await api.get("/bus-stops", {
       params: {
         search,
         limit,
         page,
+        order,
+        ...searchs
       },
     });
     return response.data;

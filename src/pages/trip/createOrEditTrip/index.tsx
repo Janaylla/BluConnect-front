@@ -151,7 +151,7 @@ const CreatOrEditTrip = () => {
                             !value.ignore && (
                                 <TextField
                                     fullWidth
-                                    size="small"
+                                    size="medium"
                                     key={key}
                                     id="outlined-basic"
                                     label={value.label}
@@ -209,10 +209,10 @@ const CreatOrEditTrip = () => {
                         alignItems={"center"}
                         gap={2}
                     >
-                        <Button size="medium" variant="contained" onClick={addBusStop}>
+                        <Button size="large" variant="outlined" onClick={addBusStop}>
                             Adicionar Parada de Ônibus
                         </Button>
-                        <Button size="medium" type="submit" variant="contained">
+                        <Button size="large" type="submit" variant="contained">
                             Salvar
                         </Button>
                     </Box>
