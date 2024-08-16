@@ -43,7 +43,7 @@ interface CompleteTableProps<Type> {
 }
 
 
-export const FilterNumberComponentKey = (key : string) => {
+export const FilterNumberComponentKey = (key: string) => {
 
   const FilterNumberComponent = ({ setSearchs }: { setSearchs: (v: any, key: string) => void }) => {
     return <Box display={'flex'} gap={1}>
@@ -52,6 +52,7 @@ export const FilterNumberComponentKey = (key : string) => {
         size="small"
         variant="standard"
         onChange={(e) => setSearchs(e.target.value, key + '_from')}
+        style={{ width: '70px' }}
       />
       <p>Até</p>
       <TextField
@@ -59,8 +60,9 @@ export const FilterNumberComponentKey = (key : string) => {
         size="small"
         variant="standard"
         onChange={(e) => setSearchs(e.target.value, key + '_to')}
+        style={{ width: '70px' }}
       />
-      </Box>
+    </Box>
   }
   return FilterNumberComponent;
 }
@@ -96,141 +98,148 @@ export default function CompleteTable<Type>({
   }
   return (
     <Box
-      gap={"10px"}
-      display={"flex"}
-      flexDirection={"column"}
-      alignItems={"center"}
+      width={'100%'}
+      position={'relative'}
+
     >
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead style={{ backgroundColor: "#c5c5c5" }}>
-            <TableRow>
-              {columns.map((column) => {
-                return (
-                  <TableCell
-                    style={{
-                      cursor: column.notFilter ? 'initial' : 'pointer',
-                    }}
-                    key={column.key}>
-                    <span
-                    >
+      <Box
+        gap={"10px"}
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        overflow='auto'
+      >
 
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead style={{ backgroundColor: "#c5c5c5" }}>
+              <TableRow>
+                {columns.map((column) => {
+                  return (
+                    <TableCell
+                      style={{
+                        cursor: column.notFilter ? 'initial' : 'pointer',
+                      }}
+                      key={column.key}>
                       <span
-                        style={
-                          {
-                            display: 'flex',
-                            alignItems: 'center'
-                          }
-                        }
-                        onClick={
-                          () => {
-                            if (!column.notFilter)
-                              onOrder(column.key)
-                          }
-                        }
                       >
-                        {column.title}
-                        {
-                          column.key === order && (
-                            asc === 'asc' ? <ArrowDropDown /> : <ArrowDropUp />
-                          )
-                        }
-                      </span>
-                      <span>
-                        {
-                          !column.notFilter &&
-                          (column.ComponentFilter ? <column.ComponentFilter
-                            setSearch={
-                              (value) => setSearchs({
-                                ...searchs,
-                                [column.key]: value
-                              })
 
+                        <span
+                          style={
+                            {
+                              display: 'flex',
+                              alignItems: 'center'
                             }
-                            setSearchs={(value, key) => {
-                              setSearchs({
+                          }
+                          onClick={
+                            () => {
+                              if (!column.notFilter)
+                                onOrder(column.key)
+                            }
+                          }
+                        >
+                          {column.title}
+                          {
+                            column.key === order && (
+                              asc === 'asc' ? <ArrowDropDown /> : <ArrowDropUp />
+                            )
+                          }
+                        </span>
+                        <span>
+                          {
+                            !column.notFilter &&
+                            (column.ComponentFilter ? <column.ComponentFilter
+                              setSearch={
+                                (value) => setSearchs({
+                                  ...searchs,
+                                  [column.key]: value
+                                })
+
+                              }
+                              setSearchs={(value, key) => {
+                                setSearchs({
+                                  ...searchs,
+                                  [key]: value
+                                })
+                              }}
+                            /> : <Input style={{
+                              width: '60px'
+                            }} size="small"
+                              onChange={(e) => setSearchs({
                                 ...searchs,
-                                [key]: value
-                              })
-                            }}
-                          /> : <Input style={{
-                            width: '60px'
-                          }} size="small"
-                            onChange={(e) => setSearchs({
-                              ...searchs,
-                              [column.key]: column.tranformFilterValue ? column.tranformFilterValue(e.target.value) : e.target.value
-                            })}
-                          />)
-                        }
+                                [column.key]: column.tranformFilterValue ? column.tranformFilterValue(e.target.value) : e.target.value
+                              })}
+                            />)
+                          }
+                        </span>
                       </span>
-                    </span>
-                  </TableCell>
+                    </TableCell>
+                  )
+                })}
+                {
+                  !commonUser &&
+                  <TableCell align="right"></TableCell>
+                }
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data?.rows?.map((line: any) => {
+
+                return (
+                  <TableRow
+                    key={line.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    {columns.map(({ key, transform }) => {
+
+                      let currentValue: Record<string, any> = line;
+                      const orders = key.split('.');
+                      for (let i = 0; i < orders.length; i++) {
+                        const key = orders[i];
+                        currentValue = currentValue[key]
+                      }
+
+                      return (
+                        <TableCell key={key} component="th" scope="row">
+                          {transform ? transform(line) : String(currentValue)}
+                        </TableCell>
+                      )
+                    })}
+                    {
+                      !commonUser &&
+                      <TableCell align="right">
+                        <IconButton
+                          aria-label="edit"
+                          href={`./${path}/edit/${line.id}`}
+                        >
+                          <Edit />
+                        </IconButton>
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => handleOpen(line.id)}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </TableCell>}
+
+                  </TableRow>
                 )
               })}
-              {
-                !commonUser &&
-                <TableCell align="right"></TableCell>
-              }
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data?.rows?.map((line: any) => {
-
-              return (
-                <TableRow
-                  key={line.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  {columns.map(({ key, transform }) => {
-
-                    let currentValue: Record<string, any> = line;
-                    const orders = key.split('.');
-                    console.log('order', order)
-                    for (let i = 0; i < orders.length; i++) {
-                      const key = orders[i];
-                      currentValue = currentValue[key]
-                    }
-
-                    return (
-                      <TableCell key={key} component="th" scope="row">
-                        {transform ? transform(line) : String(currentValue)}
-                      </TableCell>
-                    )
-                  })}
-                  {
-                    !commonUser &&
-                    <TableCell align="right">
-                      <IconButton
-                        aria-label="edit"
-                        href={`./${path}/edit/${line.id}`}
-                      >
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => handleOpen(line.id)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </TableCell>}
-
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Pagination
-        count={Math.ceil((data ? data?.count : 1) / limit)}
-        color="primary"
-        page={page}
-        onChange={handleChange}
-      />
-      <DialogDelete
-        idDelete={idDelete}
-        onDeleted={_delete}
-        onClose={handleClose}
-      />
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Pagination
+          count={Math.ceil((data ? data?.count : 1) / limit)}
+          color="primary"
+          page={page}
+          onChange={handleChange}
+        />
+        <DialogDelete
+          idDelete={idDelete}
+          onDeleted={_delete}
+          onClose={handleClose}
+        />
+      </Box>
     </Box>
   );
 }

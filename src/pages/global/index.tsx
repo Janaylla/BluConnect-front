@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import { CustomRouteMain } from "../../router/router";
 import ResponsiveMenu from "../../components/Menu";
 import { useState } from "react";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { Help } from "../../components/Menu/Help";
 const drawerWidth = 240;
 
 interface ResponsiveDrawerProps {
@@ -24,9 +26,10 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
       setMobileOpen(!mobileOpen);
     }
   };
+  const [openHelp, setOpenHelp] = useState<boolean>(false);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", width: '100%', minHeight: '100vh', overflow: 'auto' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -45,9 +48,25 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            BluConnect
-          </Typography>
+          <Box
+            flexGrow={1}
+            display='flex'
+            alignItems={'center'}
+            justifyContent={'space-between'}
+          >
+            <Typography variant="h6" noWrap component="div">
+              BluConnect
+            </Typography>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={() => setOpenHelp(true)}
+            >
+              <HelpOutlineIcon />
+            </IconButton>
+            <Help open={openHelp} onClose={() => setOpenHelp(false)} />
+          </Box>
         </Toolbar>
       </AppBar>
       <ResponsiveMenu
@@ -61,8 +80,9 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { sm: `calc(100% - ${drawerWidth}px)`, md: '100%', lg: '100%' },
         }}
+        width={'100%'}
       >
         <Toolbar />
         {children}

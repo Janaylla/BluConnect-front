@@ -4,7 +4,7 @@ import { BusStop } from "../../request/busStop/useGetListBusStop";
 import useBusRoute from "../../request/busRoute/useBusRoute";
 import { Alert, Box } from "@mui/material";
 import SelectToAndFrom from "../../components/Select/SelectToAndFrom";
-import { CheckCircleOutline, Warning } from "@mui/icons-material";
+import { Warning } from "@mui/icons-material";
 
 const Home = () => {
   const [from, setFrom] = useState<BusStop | null>(null);

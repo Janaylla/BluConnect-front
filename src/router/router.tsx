@@ -39,7 +39,7 @@ const routes: CustomRouteMain[] = [
       {
         path: "bus-stop",
         Component: ListBusStop,
-        label: "Listar Pontos de Ônibus",
+        label: "Pontos de Ônibus",
         showInMenu: true,
       },
       {
@@ -57,7 +57,7 @@ const routes: CustomRouteMain[] = [
       {
         path: "trip",
         Component: ListTrip,
-        label: "Listar Viagens de Ônibus",
+        label: "Viagens de Ônibus",
         showInMenu: true,
       },
       {
@@ -75,7 +75,7 @@ const routes: CustomRouteMain[] = [
       {
         path: "travel-schedule",
         Component: () => <ListTravelSchedule commonUser={false}/>,
-        label: "Listar os Horários dos Ônibus",
+        label: "Horários dos Ônibus",
         showInMenu: true,
       },
       {
@@ -87,7 +87,7 @@ const routes: CustomRouteMain[] = [
       {
         path: "travel-schedule/create",
         Component: CreateOrEditTravelSchedule,
-        label: "Criar os Horários dos Ônibus",
+        label: "Criar Horário dos Ônibus",
         showInMenu: true,
       },
     ],
