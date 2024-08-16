@@ -49,7 +49,7 @@ const CreatOrEditTrip = () => {
                 if (route.busStop) {
                     busStops[key] = {
                         busStop: route.busStop,
-                        avaregeTimePlus: secondsToHHMM(route.averagTimePlus),
+                        avaregeTimePlus: secondsToHHMM(route.averageTimePlus),
                     }
                     listBusStop.push({ key });
                 }
@@ -104,7 +104,7 @@ const CreatOrEditTrip = () => {
             busRoutes.push({
                 busStopId: busStop.busStop.id,
                 index: i,
-                averagTimePlus: HHMMToSeconds(busStop.avaregeTimePlus)
+                averageTimePlus: HHMMToSeconds(busStop.avaregeTimePlus)
             });
 
         }

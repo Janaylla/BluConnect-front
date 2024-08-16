@@ -11,7 +11,7 @@ export interface BusRoute {
   tripId?: string;
   busStop?: BusStop;
   busStopId: number;
-  averagTimePlus: number
+  averageTimePlus: number
 }
 const useBusRoute = ({ from_id, to_id }: QueryBusRoute) => {
   return useQuery(`busRoute-${from_id}-${to_id}`, async (): Promise<BusRoute[]> => {
