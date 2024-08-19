@@ -8,19 +8,16 @@ import {
 import { LatLng } from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-import Routing from "../Rounting";
 
 interface MapPointersProps {
   initialPosition?: LatLng;
   onChangePointer?: (p: { lat: number; lng: number }) => void;
   pointer?: LatLng;
-  waypoints?: Array<[number, number]>;
 }
 const MapPointers = ({
   initialPosition,
   pointer,
   onChangePointer,
-  waypoints,
 }: MapPointersProps) => {
   const position = initialPosition || new LatLng(-26.9334, -48.9538);
 
@@ -51,7 +48,6 @@ const MapPointers = ({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {waypoints?.length && <Routing waypoints={waypoints} />}
       <ClickHandler />
       {pointer && (
         <Marker position={pointer}>

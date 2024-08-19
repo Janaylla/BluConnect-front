@@ -7,8 +7,8 @@ import SelectToAndFrom from "../../components/Select/SelectToAndFrom";
 import { Warning } from "@mui/icons-material";
 
 const Home = () => {
-  const [from, setFrom] = useState<BusStop | null>(null);
-  const [to, setTo] = useState<BusStop | null>(null);
+  const [from, setFrom] = useState<BusStop | undefined>();
+  const [to, setTo] = useState<BusStop | undefined>();
 
   const { data: routing, isLoading } = useBusRoute({
     from_id: from?.id,

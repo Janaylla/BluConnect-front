@@ -5,9 +5,11 @@ import SelectWithSearch from "../SelectWithSearch";
 const SelectToAndFrom = ({
   label,
   setValue,
+  value,
 }: {
   label: string;
-  setValue: (value: BusStop | null) => void;
+  setValue: (value: BusStop | undefined) => void;
+  value?: BusStop;
 }) => {
   return (
     <SelectWithSearch
@@ -16,6 +18,7 @@ const SelectToAndFrom = ({
       limit={20}
       setValue={setValue}
       label={label}
+      value={value}
     />
   );
 };

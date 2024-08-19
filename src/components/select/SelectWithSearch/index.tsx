@@ -14,7 +14,8 @@ export interface PropsSelectWithSearch<Value> {
   getLabelByValue: (v: Value) => string;
   useGetData(p: QuerySearch): UseQueryResult<OutputData<Value>, unknown>
   limit?: number
-  setValue: (v: Value | null) => void;
+  setValue: (v: Value | undefined) => void;
+  value?: Value;
 }
 
 const SelectWithSearch = <Value,>({
@@ -22,13 +23,14 @@ const SelectWithSearch = <Value,>({
   useGetData,
   getLabelByValue,
   limit = 10,
-  setValue
+  setValue,
+  value,
 }: PropsSelectWithSearch<Value>) => {
   const [search, setSearch] = useState("");
 
   const { data } = useGetData({ search, limit, page: 1 });
   const [options, setOption] = useState<Option<Value>[]>([]);
-  const [selectedOption, setSelectedOption] = useState<Option<Value> | null>(null)
+  const [selectedOption, setSelectedOption] = useState<Option<Value | undefined>>()
 
   useEffect(() => {
     if (data) {
@@ -40,10 +42,13 @@ const SelectWithSearch = <Value,>({
   }, [data])
   return (
     <Autocomplete
-      value={selectedOption}
+      value={selectedOption || {
+        label: value ? getLabelByValue(value) : '',
+        value,
+      }}
       onChange={(event, newValue) => {
-        setSelectedOption(newValue);
-        setValue(newValue?.value || null)
+        newValue && setSelectedOption(newValue);
+        setValue(newValue?.value || undefined)
       }}
       options={options}
       getOptionLabel={(option) => option.label}

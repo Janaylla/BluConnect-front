@@ -11,6 +11,7 @@ import { useGetTrip } from "../../../request/trip/useGetTrip";
 import { useUpdateTrip } from "../../../request/trip/useUpdateTrip";
 import { useCreateTrip } from "../../../request/trip/useCreateTrip";
 import { HHMMToSeconds, secondsToHHMM } from "../../travelSchedule/travelSchedule.type";
+import MapComponent from "../../../components/Map";
 
 interface BusGenerator {
     key: string;
@@ -39,6 +40,7 @@ const CreatOrEditTrip = () => {
 
     useEffect(() => {
         if (initialTripData) {
+            console.log('initialTripData', initialTripData)
             const busStops: Record<string, {
                 busStop: BusStop;
                 avaregeTimePlus: string;
@@ -140,7 +142,7 @@ const CreatOrEditTrip = () => {
 
     return (
         <Box>
-            <MapPointers waypoints={waypoints} />
+            <MapComponent waypoints={waypoints} />
             <form onSubmit={handleSubmit}>
                 <Box marginY={2} gap={2} display={"flex"} flexDirection="column">
                     {Object.entries(busForm).map(
@@ -175,7 +177,7 @@ const CreatOrEditTrip = () => {
                                     <Box display={"flex"} gap={2} flexDirection={"row"} width={"100%"}>
                                         <Box flexGrow={1}>
                                             <SelectToAndFrom
-                                                setValue={(newBusStop: BusStop | null) => {
+                                                setValue={(newBusStop: BusStop | undefined) => {
                                                     if (newBusStop) {
                                                         setForm({
                                                             ...form,
@@ -191,6 +193,7 @@ const CreatOrEditTrip = () => {
                                                 }}
                                                 label={`Parada de ônibus ${index + 1}`}
                                                 key={busStop.key}
+                                                value={value?.busStop}
                                             />
                                         </Box>
                                         <p style={
@@ -198,7 +201,7 @@ const CreatOrEditTrip = () => {
                                                 alignContent: 'center'
                                             }
                                         }>
-                                            Tempo +
+                                            Tempo + <br/>
                                             paradas
                                         </p>
                                         <Box >

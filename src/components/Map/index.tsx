@@ -34,18 +34,16 @@ const MapComponent = ({ waypoints }: MapComponentProps) => {
 
 
 const RoutingComponent = ({ waypoints }: { waypoints: [number, number][] }) => {
-  const map = useMap(); // Acessa a instância do mapa diretamente
+  const map = useMap(); 
 
   useEffect(() => {
     if (map && waypoints.length > 0) {
-      // Remove o roteamento anterior, se existir
       map.eachLayer((layer) => {
         if (layer instanceof L.Routing.Control) {
           map.removeLayer(layer);
         }
       });
 
-      // Configura o roteamento com os waypoints
       const routingControl = L.Routing.control({
         waypoints: waypoints.map(
           (point) => L.latLng(point[0], point[1])
