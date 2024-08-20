@@ -27,7 +27,7 @@ const MapComponent = ({ waypoints }: MapComponentProps) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <RoutingComponent waypoints={waypoints} /> {/* Component para lógica de roteamento */}
+      <RoutingComponent waypoints={waypoints} /> 
     </MapContainer>
   );
 };
@@ -59,21 +59,21 @@ const RoutingComponent = ({ waypoints }: { waypoints: [number, number][] }) => {
         formatter: new L.Routing.Formatter({
           distanceTemplate: '',
         }),
-        collapsible: true, // Permite colapsar o painel
+        collapsible: true, 
       }).addTo(map);
 
-      // Esconde o painel de roteamento via CSS
       const routePanel: any = document.querySelector('.leaflet-routing-container');
       if (routePanel) {
         routePanel.style.display = 'none';
       }
       return () => {
-        map.removeControl(routingControl); // Remove o controle de roteamento ao desmontar o componente
+        if (map && routingControl) {
+          map.removeControl(routingControl); 
+        }
       };
     }
-  }, [map, waypoints]); // O efeito é disparado quando o mapa ou os waypoints mudam
-
-  return null; // Este componente não precisa renderizar nada diretamente
+  }, [map, waypoints]); 
+  return null; 
 };
 
 

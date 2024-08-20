@@ -30,7 +30,19 @@ const SelectWithSearch = <Value,>({
 
   const { data } = useGetData({ search, limit, page: 1 });
   const [options, setOption] = useState<Option<Value>[]>([]);
-  const [selectedOption, setSelectedOption] = useState<Option<Value | undefined>>()
+  const [selectedOption, setSelectedOption] = useState<Option<Value | undefined> | undefined>({
+    label: value ? getLabelByValue(value) : '',
+    value,
+  })
+
+  useEffect(() => {
+    if (value) {
+      setSelectedOption({
+        label: getLabelByValue(value),
+        value,
+      });
+    }
+  }, [value]);
 
   useEffect(() => {
     if (data) {
@@ -42,10 +54,7 @@ const SelectWithSearch = <Value,>({
   }, [data])
   return (
     <Autocomplete
-      value={selectedOption || {
-        label: value ? getLabelByValue(value) : '',
-        value,
-      }}
+      value={selectedOption}
       onChange={(event, newValue) => {
         newValue && setSelectedOption(newValue);
         setValue(newValue?.value || undefined)

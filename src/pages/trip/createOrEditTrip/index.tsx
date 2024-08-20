@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField, IconButton, styled } from "@mui/material";
-import MapPointers from "../../../components/MapPointers";
+import { Box, Button, TextField, IconButton } from "@mui/material";
 import { useParams } from "react-router-dom";
 import SelectToAndFrom from "../../../components/Select/SelectToAndFrom";
 import { Close } from "@mui/icons-material";
@@ -33,37 +32,54 @@ const CreatOrEditTrip = () => {
         busStops: {},
     });
 
+    const [waypoints, setWaypoints] = useState<[number, number][]>([]);
+
     const [listBusStop, setListBusStop] = useState<BusGenerator[]>([
         busInit,
         busEnd,
     ]);
-
+    const [busStops, setBusStop] = useState<Record<string, BusStop>>({})
+    const [avaregesTimePlus, setAvaregesTimePlus] = useState<Record<string, string>>({})
     useEffect(() => {
         if (initialTripData) {
-            console.log('initialTripData', initialTripData)
-            const busStops: Record<string, {
-                busStop: BusStop;
-                avaregeTimePlus: string;
-            }> = {};
+            const busStops: Record<string, BusStop> = {};
+            const avaregesTimePlus: Record<string, string> = {};
             const listBusStop: BusGenerator[] = [];
             initialTripData.busRoutes.forEach((route: BusRoute, index) => {
                 const key = new Date(index).getTime().toString();
                 if (route.busStop) {
-                    busStops[key] = {
-                        busStop: route.busStop,
-                        avaregeTimePlus: secondsToHHMM(route.averageTimePlus),
-                    }
+                    busStops[key] = route.busStop
+                    avaregesTimePlus[key] = secondsToHHMM(route.averageTimePlus);
                     listBusStop.push({ key });
                 }
 
             });
             setForm({
                 code: initialTripData.code,
-                busStops,
+                busStops: {},
             });
+            setBusStop(busStops);
+            setAvaregesTimePlus(avaregesTimePlus);
             setListBusStop(listBusStop);
         }
     }, [initialTripData]);
+
+    useEffect(() => {
+        const busStopsForm: Record<string, {
+            busStop: BusStop,
+            avaregeTimePlus: number;
+        }> = {};
+        for (const ge of listBusStop) {
+            busStopsForm[ge.key] = {
+                avaregeTimePlus: HHMMToSeconds(avaregesTimePlus[ge.key]),
+                busStop: busStops[ge.key]
+            }
+        }
+        setForm({
+            ...form,
+            busStops: busStopsForm,
+        })
+    }, [avaregesTimePlus, busStops])
 
     const addBusStop = () => {
         setListBusStop([
@@ -76,16 +92,16 @@ const CreatOrEditTrip = () => {
 
     const deleteBusStop = (index: number, busGenerator: BusGenerator) => {
         const newListBusStop = [...listBusStop];
+        const newBusStops: Record<string, BusStop> = { ...busStops }
+        const newAvaregesTimePlus: Record<string, string> = { ...avaregesTimePlus };
+
+        delete newBusStops[busGenerator.key];
+        delete newAvaregesTimePlus[busGenerator.key];
         newListBusStop.splice(index, 1);
+
         setListBusStop(newListBusStop);
-
-        const newBusStop = { ...form.busStops };
-        delete newBusStop[busGenerator.key];
-
-        setForm({
-            ...form,
-            busStops: newBusStop,
-        });
+        setAvaregesTimePlus(newAvaregesTimePlus)
+        setBusStop(newBusStops)
     };
 
     const { mutate: updateTrip } = useUpdateTrip();
@@ -106,7 +122,7 @@ const CreatOrEditTrip = () => {
             busRoutes.push({
                 busStopId: busStop.busStop.id,
                 index: i,
-                averageTimePlus: HHMMToSeconds(busStop.avaregeTimePlus)
+                averageTimePlus: busStop.avaregeTimePlus,
             });
 
         }
@@ -127,15 +143,18 @@ const CreatOrEditTrip = () => {
         }
     };
 
-    const [waypoints, setWaypoints] = useState<[number, number][]>([]);
 
     useEffect(() => {
-        const waypoints: Array<[number, number]> = Object.values(
-            form.busStops
-        ).map((route) => [route.busStop.latitude, route.busStop.longitude]);
+        if (busStops) {
+            const waypoints: Array<[number, number]> = Object.values(
+                busStops
+            )
+                .filter((busStop) => busStop)
+                .map((busStop) => [busStop.latitude, busStop.longitude])
 
-        setWaypoints([...waypoints]);
-    }, [form.busStops]);
+            setWaypoints(waypoints);
+        }
+    }, [busStops]);
 
     if (isLoading && id) return <div>Carregando...</div>;
 
@@ -165,7 +184,8 @@ const CreatOrEditTrip = () => {
 
                     <Box marginY={0} gap={2} display={"flex"} flexDirection="column">
                         {listBusStop.map((busStop, index) => {
-                            const value = form.busStops[busStop.key];
+                            const value = busStops[busStop.key];
+                            console.log("value", value)
 
                             return (
                                 <Box
@@ -179,21 +199,12 @@ const CreatOrEditTrip = () => {
                                             <SelectToAndFrom
                                                 setValue={(newBusStop: BusStop | undefined) => {
                                                     if (newBusStop) {
-                                                        setForm({
-                                                            ...form,
-                                                            busStops: {
-                                                                ...form.busStops,
-                                                                [busStop.key]: {
-                                                                    busStop: newBusStop,
-                                                                    avaregeTimePlus: value?.avaregeTimePlus,
-                                                                },
-                                                            },
-                                                        });
+                                                        setBusStop({ ...busStops, [busStop.key]: newBusStop })
                                                     }
                                                 }}
                                                 label={`Parada de ônibus ${index + 1}`}
                                                 key={busStop.key}
-                                                value={value?.busStop}
+                                                value={value}
                                             />
                                         </Box>
                                         <p style={
@@ -201,7 +212,7 @@ const CreatOrEditTrip = () => {
                                                 alignContent: 'center'
                                             }
                                         }>
-                                            Tempo + <br/>
+                                            Tempo + <br />
                                             paradas
                                         </p>
                                         <Box >
@@ -212,21 +223,9 @@ const CreatOrEditTrip = () => {
                                                 required={true}
                                                 type={'time'}
                                                 onChange={
-                                                    (e) =>
-                                                        setForm({
-                                                            ...form,
-                                                            busStops: {
-                                                                ...form.busStops,
-                                                                [busStop.key]: {
-                                                                    busStop: value.busStop,
-                                                                    avaregeTimePlus: e.target.value,
-                                                                },
-                                                            },
-                                                        })
+                                                    (e) => setAvaregesTimePlus({ ...avaregesTimePlus, [busStop.key]: e.target.value })
                                                 }
-                                                value={
-                                                    value?.avaregeTimePlus
-                                                }
+                                                value={avaregesTimePlus[busStop.key]}
                                             />
                                         </Box>
                                     </Box>

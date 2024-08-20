@@ -82,7 +82,7 @@ export default function TabPanel({ index, helpText, value }: TabPanelProps) {
     return (
         <CustomTabPanel value={value} index={index}>
             <Box
-                height={'800px'}
+                height={'500px'}
                 maxHeight={'calc(100vh - 100px)'}
                 overflow={'auto'}
                 display={'flex'}
@@ -90,25 +90,35 @@ export default function TabPanel({ index, helpText, value }: TabPanelProps) {
                 gap='10px'
                 paddingX={'0px'}
             >
-                {
-                    helpText.help.map((con, i) => {
-                        const newSelectParagrafh: SelectParagrafh = {
-                            focus: con.focus,
-                            index: i
-                        }
-                        return <Paragrafh
-                            onMouseOut={() => setSelectHoverParagrafh(undefined)}
-                            onMouseOver={() => setSelectHoverParagrafh(newSelectParagrafh)}
-                            onClick={() => setSelectParagrafh(selectParagrafh?.index === i ? undefined : newSelectParagrafh)}
-                            selected={selectParagrafh?.index === i}
-                        >
-                            <b>{i + 1} {con.highlight}:</b> {con.text}
-                        </Paragrafh>
-                    })
+                <Box
+                    style={{
+                        overflow: 'auto',
+                        maxHeight: '180px', // Ajuste conforme necessário
+                        scrollbarWidth: 'thin',  // Para navegadores baseados em WebKit, você pode usar ::-webkit-scrollbar
+                        scrollbarColor: 'rgba(0,0,0,0.1) rgba(0,0,0,0.01)'
+                    }}
+                    gap={'10px'}
+                    overflow={'auto'}>
+                    {
+                        helpText.help.map((con, i) => {
+                            const newSelectParagrafh: SelectParagrafh = {
+                                focus: con.focus,
+                                index: i
+                            }
+                            return <Paragrafh
+                                onMouseOut={() => setSelectHoverParagrafh(undefined)}
+                                onMouseOver={() => setSelectHoverParagrafh(newSelectParagrafh)}
+                                onClick={() => setSelectParagrafh(selectParagrafh?.index === i ? undefined : newSelectParagrafh)}
+                                selected={selectParagrafh?.index === i}
+                            >
+                                <b>{i + 1} {con.highlight}:</b> {con.text}
+                            </Paragrafh>
+                        })
 
-                }
+                    }
+                </Box>
                 <ImageBox>
-                    <img src={helpText.img} />
+                    <img src={helpText.img} width={'100%'} />
                     {
                         <>
                             {

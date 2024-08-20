@@ -163,7 +163,7 @@ export default function CompleteTable<Type>({
                                 })
                               }}
                             /> : <Input style={{
-                              width: '60px'
+                              width: '150px'
                             }} size="small"
                               onChange={(e) => setSearchs({
                                 ...searchs,

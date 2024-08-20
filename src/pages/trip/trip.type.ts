@@ -4,7 +4,7 @@ export interface TripForm {
   code: string;
   busStops: Record<string, {
     busStop: BusStop,
-    avaregeTimePlus: string;
+    avaregeTimePlus: number;
   }>;
 }
 
