@@ -1,77 +1,60 @@
 import useGetListTravelSchedule, { TravelSchedule } from "../../../request/travelSchedule/useGetListTravelSchedule";
-import CompleteTable, { CompleteTableColumn } from "../../../components/CompleteTable";
+import CompleteTable from "../../../components/CompleteTable";
 import { useDeleteTravelSchedule } from "../../../request/travelSchedule/useDeleteTravelSchedule";
-import {  FilterHHMMComponent, secondsToHHMM } from "../travelSchedule.type";
-import { Checkbox } from "@mui/material";
-import { CheckBox as CheckBoxIcon, CheckBoxOutlineBlank } from "@mui/icons-material";
-const ckeck = (value: any, day: string) => {
-  return value[day] ? <CheckBoxIcon/> : <CheckBoxOutlineBlank/>
-}
-const Check = ({ setSearch }: {
-  setSearch: Function;
-}) => {
-  return <Checkbox
-    onChange={
-      (e) => setSearch(e.target.checked)
-    }
-    style={{
-      margin: 0,
-      padding: 0
-    }}
-  />
+import { secondsToHHMM, daysOfWeek } from "../travelSchedule.type";
+import { Box } from "@mui/material";
+import { CompleteTableColumn } from "../../../components/CompleteTable/completTable.type";
+const transformDays = (value: TravelSchedule | any) => {
+
+  const date =  new Date();
+  const day = date.getDay()
+  return <Box display={'flex'} gap={'10px'}>
+    {
+      Object.entries(daysOfWeek).map(([key, daysOfWeek]) => {
+        const isChecked = value[key as any];
+        const initial = daysOfWeek.initial;
+        const isCurrentDay = day === daysOfWeek.index
+        return <Box
+      
+          sx={{
+            border: '1px solid',
+            borderColor: isChecked ? '#4caf50' : '#f44336', // Verde se check, vermelho se não
+            borderRadius: '8px', // Borda arredondada
+            padding: '4px 8px', // Espaçamento interno
+            display: 'inline-block', // Para o Box se comportar como um botão
+            backgroundColor: isChecked ? '#e8f5e9' : '#ffebee', // Cores diferentes de fundo
+            minWidth: '40px', // Tamanho mínimo
+            textAlign: 'center', // Alinhar o texto no centro
+            fontWeight: 'bold' , // Destaca o dia atual
+            color: '#000', // Muda a cor para um tom mais apagado
+            opacity: isCurrentDay ? 1 : 0.6 // Opacidade reduzida para os outros dias
+          }}
+        >
+          {initial}
+        </Box>
+      })
+  }
+  </Box>
+
 }
 const columns: CompleteTableColumn[] = [
   {
     title: "Horário",
     key: "time",
     transform: (value: TravelSchedule) => secondsToHHMM(value.time),
-    ComponentFilter:  FilterHHMMComponent
+    type: 'time'
   },
   {
     title: "Viagem",
     key: 'trip.code',
+    type: 'text'
   },
   {
-    title: "Seg",
-    key: "monday",
-    transform: (value: TravelSchedule) => ckeck(value, 'monday'),
-    ComponentFilter: Check
-  },
-  {
-    title: "Ter",
-    key: "thursday",
-    transform: (value: TravelSchedule) => ckeck(value, 'thursday'),
-    ComponentFilter: Check
-  },
-  {
-    title: "Qua",
-    key: "wednesday",
-    transform: (value: TravelSchedule) => ckeck(value, 'wednesday'),
-    ComponentFilter: Check
-  },
-  {
-    title: "Qui",
-    key: "tuesday",
-    transform: (value: TravelSchedule) => ckeck(value, 'tuesday'),
-    ComponentFilter: Check
-  },
-  {
-    title: "Sex",
-    key: "friday",
-    transform: (value: TravelSchedule) => ckeck(value, 'friday'),
-    ComponentFilter: Check
-  },
-  {
-    title: "Sáb",
-    key: "saturday",
-    transform: (value: TravelSchedule) => ckeck(value, 'saturday'),
-    ComponentFilter: Check
-  },
-  {
-    title: "Dom",
-    key: "sunday",
-    transform: (value: TravelSchedule) => ckeck(value, 'sunday'),
-    ComponentFilter: Check
+    title: 'Dias da Semana',
+    key: 'week',
+    transform: transformDays,
+    type: 'week',
+    notOrder: true,
   }
 
 ];

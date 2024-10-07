@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { HHMMToSeconds, secondsToHHMM, TravelScheduleForm, weeks } from "../travelSchedule.type";
+import { HHMMToSeconds, secondsToHHMM, TravelScheduleForm, daysOfWeek, DayForWeek } from "../travelSchedule.type";
 import { useGetTravelSchedule } from "../../../request/travelSchedule/useGetTravelSchedule";
 import { useUpdateTravelSchedule } from "../../../request/travelSchedule/useUpdateTravelSchedule";
 import { useCreateTravelSchedule } from "../../../request/travelSchedule/useCreateTravelSchedule";
@@ -81,7 +81,7 @@ const CreateOrEditTravelSchedule = () => {
               Semanas:
             </p>
             {
-              Object.entries(weeks).map(([key, label]: [any, string]) => {
+              Object.entries(daysOfWeek).map(([key, label]: [any, DayForWeek]) => {
                 const value = form as any
                 return <FormControlLabel control={
                   <Checkbox
@@ -92,7 +92,7 @@ const CreateOrEditTravelSchedule = () => {
                         [key]: !value[key]
                       })
                     }
-                  />} label={label} />
+                  />} label={label.threeLetters} />
               })
             }
           </Box>

@@ -1,5 +1,5 @@
 import { UseQueryResult } from "react-query";
-import { OutputData, QuerySearch } from "../components/CompleteTable";
+import { OutputData, QuerySearch } from "../components/CompleteTable/completTable.type";
 
 export interface InputForm<Value> {
     label: string;

@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { api } from "../axios";
-import { OutputData, QuerySearch } from "../../components/CompleteTable";
+import { OutputData, QuerySearch } from "../../components/CompleteTable/completTable.type";
 import { BusRoute } from "../busRoute/useBusRoute";
 
 export interface Trip {

@@ -1,18 +1,22 @@
 import useGetListBusRoute from "../../../request/busRoute/useGetListBusRoute";
 import CompleteTable from "../../../components/CompleteTable";
 import { useDeleteBusRoute } from "../../../request/busRoute/useDeleteBusRoute";
-const columns = [
+import { CompleteTableColumn } from "../../../components/CompleteTable/completTable.type";
+  const columns: CompleteTableColumn[] = [
   {
     title: "Nome",
     key: "name",
+    type: 'text'
   },
   {
     title: "Latitude",
     key: "latitude",
+    type: 'quantity'
   },
   {
     title: "Longitude",
     key: "longitude",
+    type: 'quantity'
   },
 ];
 export default function ListBusRoute() {

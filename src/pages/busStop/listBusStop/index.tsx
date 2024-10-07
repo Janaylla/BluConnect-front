@@ -1,22 +1,23 @@
 import useGetListBusStop from "../../../request/busStop/useGetListBusStop";
-import CompleteTable, { CompleteTableColumn, FilterNumberComponentKey } from "../../../components/CompleteTable";
+import CompleteTable from "../../../components/CompleteTable";
+import { CompleteTableColumn } from "../../../components/CompleteTable/completTable.type";
 import { useDeleteBusStop } from "../../../request/busStop/useDeleteBusStop";
-
 const columns: CompleteTableColumn[] = [
   {
     title: "Nome",
     key: "name",
+    type: 'text'
   },
   {
     title: "Latitude",
     key: "latitude",
-    ComponentFilter: FilterNumberComponentKey('latitude')
+    type: 'quantity'
 
   },
   {
     title: "Longitude",
     key: "longitude",
-    ComponentFilter: FilterNumberComponentKey('longitude')
+    type: 'quantity'
   },
 ];
 export default function ListBusStop() {

@@ -2,7 +2,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect, useState } from "react";
 import { UseQueryResult } from "react-query";
-import { OutputData, QuerySearch } from "../../CompleteTable";
+import { OutputData, QuerySearch } from "../../CompleteTable/completTable.type";
 
 export interface Option<Value> {
   label: string;
