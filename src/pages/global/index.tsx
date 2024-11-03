@@ -11,6 +11,8 @@ import ResponsiveMenu from "../../components/Menu";
 import { useState } from "react";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Help } from "../../components/Menu/Help";
+import { Menu, MenuItem } from "@mui/material";
+import { MoreVert } from "@mui/icons-material";
 const drawerWidth = 240;
 
 interface ResponsiveDrawerProps {
@@ -27,7 +29,21 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
     }
   };
   const [openHelp, setOpenHelp] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isAuthenticated = localStorage.getItem("authenticated") === "true"; // Verifica se o usuário está autenticado
 
+  const handleLogout = () => {
+    localStorage.removeItem("authenticated"); // Remove o estado de autenticação
+    window.location.reload(); // Pode ser usado para recarregar a página e redirecionar para Home
+  };
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget); // Abre o menu
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null); // Fecha o menu
+  };
   return (
     <Box sx={{ display: "flex", width: '100%', minHeight: '100vh', overflow: 'auto' }}>
       <CssBaseline />
@@ -57,15 +73,38 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
             <Typography variant="h6" noWrap component="div">
               BluConnect
             </Typography>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={() => setOpenHelp(true)}
-            >
-              <HelpOutlineIcon />
-            </IconButton>
-            <Help open={openHelp} onClose={() => setOpenHelp(false)} />
+            <Box sx={{
+              display: 'flex'
+            }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={() => setOpenHelp(true)}
+              >
+                <HelpOutlineIcon />
+              </IconButton>
+              <Help open={openHelp} onClose={() => setOpenHelp(false)} />{/* Menu para Usuários Logados */}
+              {isAuthenticated && (
+                <div>
+                  <IconButton
+                    color="inherit"
+                    aria-label="user menu"
+                    onClick={handleMenuClick}
+                  >
+                    <MoreVert />
+                  </IconButton>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleCloseMenu}
+                  >
+                    <MenuItem onClick={handleCloseMenu}>Lista de Log</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </Menu>
+                </div>
+              )}
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>

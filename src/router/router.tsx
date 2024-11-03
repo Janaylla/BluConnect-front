@@ -1,13 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/home";
 import About from "../pages/about";
-import GlobalPage from "../pages/global";
 import CreateOrUpdateBusStop from "../pages/busStop/createOrEditBusStop";
 import ListBusStop from "../pages/busStop/listBusStop";
 import ListTrip from "../pages/trip/listTrip";
 import CreateOrEditTravelSchedule from "../pages/travelSchedule/createOrEditTravelSchedule";
 import ListTravelSchedule from "../pages/travelSchedule/listTravelSchedule";
 import CreatOrEditTrip from "../pages/trip/createOrEditTrip";
+import Login from "../pages/login";
 export interface CustomRoute {
   path: string;
   Component: () => JSX.Element;
@@ -98,25 +97,4 @@ const routes: CustomRouteMain[] = [
   },
 ];
 
-const AppRoutes = () => {
-  return (
-    <BrowserRouter>
-      <GlobalPage routes={routes}>
-        <Routes>
-          {routes.map((route) =>
-            route.routes.map((routeChildren) => (
-              <Route
-                key={routeChildren.path}
-                path={route.path + "/" + routeChildren.path}
-                element={<routeChildren.Component />}
-              />
-            ))
-          )}
-        </Routes>
-      </GlobalPage>
-    </BrowserRouter>
-  );
-};
-
 export { routes };
-export default AppRoutes;

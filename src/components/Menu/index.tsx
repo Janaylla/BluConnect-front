@@ -5,8 +5,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { CustomRouteMain } from "../../router/router";
 import Toolbar from "@mui/material/Toolbar";
-import { Box, Drawer } from "@mui/material";
+import { Box, Drawer, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom"; // Importar para redirecionar
+
 const drawerWidth = 240;
 
 interface MenuProps {
@@ -15,6 +17,7 @@ interface MenuProps {
   setMobileOpen: (value: boolean) => void;
   mobileOpen: boolean;
 }
+
 function ResponsiveMenu({
   routes,
   setIsClosing,
@@ -25,63 +28,76 @@ function ResponsiveMenu({
     setIsClosing(true);
     setMobileOpen(false);
   };
+  
   const [selectedRoute, setSelectedRoute] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado de autenticação
 
   useEffect(() => {
     setSelectedRoute(window.location.href);
+    setIsAuthenticated(localStorage.getItem("authenticated") === "true"); // Verificar se está autenticado
   }, [window.location.href]);
 
   const handleDrawerTransitionEnd = () => {
     setIsClosing(false);
   };
+
   const baseUrl = window.location.origin;
+
+  // Criar um menu com rotas comuns e rotas administrativas
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
         {routes.map((route) => (
-          <>
+          <div key={route.path}>
             {route.routes.map((routeChildren) => {
+              // Exibir rotas comuns para usuários não autenticados e todas as rotas para autenticados
               if (!routeChildren.showInMenu) return null;
+
+              // Condição para rotas administrativas
+              if (route.path === "admin" && !isAuthenticated) return null;
+
               const href =
                 baseUrl +
                 (route.path ? "/" : "") +
                 route.path +
                 (routeChildren.path ? "/" : "") +
                 routeChildren.path;
+
               return (
                 <ListItem key={routeChildren.path} disablePadding>
                   <ListItemButton
                     sx={{
                       backgroundColor: selectedRoute === href ? 'lightgrey' : 'transparent',
-                    }} component="a" href={href}>
-                    <ListItemText primary={routeChildren.label
-                    } />
+                    }} 
+                    component="a" 
+                    href={href}>
+                    <ListItemText primary={routeChildren.label} />
                   </ListItemButton>
                 </ListItem>
               );
             })}
             <Divider />
-          </>
+          </div>
         ))}
       </List>
     </div>
   );
+
   return (
     <Box
       component="nav"
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders"
     >
-      {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
       <Drawer
         variant="temporary"
         open={mobileOpen}
         onTransitionEnd={handleDrawerTransitionEnd}
         onClose={handleDrawerClose}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true, // Melhor desempenho ao abrir em dispositivos móveis.
         }}
         sx={{
           display: { xs: "block", sm: "none" },
