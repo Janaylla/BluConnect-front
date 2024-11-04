@@ -12,7 +12,7 @@ export const useDeleteUser = () => {
     {
         onError: (error: any) => {
             toast({
-                title: "Erro ao deletar ponto de usuário",
+                title: "Erro ao deletar usuário",
                 message: error.response.data.message,
                 type: "error",
             });
