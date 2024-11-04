@@ -30,10 +30,10 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
   };
   const [openHelp, setOpenHelp] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const isAuthenticated = localStorage.getItem("authenticated") === "true"; // Verifica se o usuário está autenticado
+  const isAuthenticated = localStorage.getItem("token"); // Verifica se o usuário está autenticado
 
   const handleLogout = () => {
-    localStorage.removeItem("authenticated"); // Remove o estado de autenticação
+    localStorage.removeItem("token"); // Remove o estado de autenticação
     window.location.reload(); // Pode ser usado para recarregar a página e redirecionar para Home
   };
 
@@ -99,7 +99,7 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
                     open={Boolean(anchorEl)}
                     onClose={handleCloseMenu}
                   >
-                    <MenuItem onClick={handleCloseMenu}>Lista de Log</MenuItem>
+                    <MenuItem onClick={handleCloseMenu}>Log</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </div>

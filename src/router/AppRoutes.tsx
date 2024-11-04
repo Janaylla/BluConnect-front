@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalPage from "../pages/global";
 import { routes } from "./router";
 import ProtectedRoute from "./ProtectedRoute"; // Importe o componente de rota protegida
-import Login from "../pages/login";
+import Login from "../pages/login/Login";
+import NotFoundPage from "../pages/notFound/NotFound";
 const AppRoutes = () => {
     return (
         <BrowserRouter>
@@ -33,10 +34,12 @@ const AppRoutes = () => {
                                         </GlobalPage>
                                     )
                                 }
+                                
                             />
                         );
                     })
                 )}
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </BrowserRouter>
     );

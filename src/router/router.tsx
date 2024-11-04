@@ -6,7 +6,6 @@ import ListTrip from "../pages/trip/listTrip";
 import CreateOrEditTravelSchedule from "../pages/travelSchedule/createOrEditTravelSchedule";
 import ListTravelSchedule from "../pages/travelSchedule/listTravelSchedule";
 import CreatOrEditTrip from "../pages/trip/createOrEditTrip";
-import Login from "../pages/login";
 export interface CustomRoute {
   path: string;
   Component: () => JSX.Element;

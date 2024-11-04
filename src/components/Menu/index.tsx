@@ -5,9 +5,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { CustomRouteMain } from "../../router/router";
 import Toolbar from "@mui/material/Toolbar";
-import { Box, Drawer, Typography } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom"; // Importar para redirecionar
 
 const drawerWidth = 240;
 
@@ -34,7 +33,7 @@ function ResponsiveMenu({
 
   useEffect(() => {
     setSelectedRoute(window.location.href);
-    setIsAuthenticated(localStorage.getItem("authenticated") === "true"); // Verificar se está autenticado
+    setIsAuthenticated(!!localStorage.getItem("token")); // Verificar se está autenticado
   }, [window.location.href]);
 
   const handleDrawerTransitionEnd = () => {
