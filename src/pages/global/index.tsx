@@ -13,6 +13,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Help } from "../../components/Menu/Help";
 import { Menu, MenuItem } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
+import DialogLog from "../../components/Log/Log";
 const drawerWidth = 240;
 
 interface ResponsiveDrawerProps {
@@ -31,6 +32,9 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
   const [openHelp, setOpenHelp] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isAuthenticated = localStorage.getItem("token"); // Verifica se o usuário está autenticado
+
+  const [openDialog, setOpenDialog] = useState(false);
+  
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove o estado de autenticação
@@ -99,7 +103,7 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
                     open={Boolean(anchorEl)}
                     onClose={handleCloseMenu}
                   >
-                    <MenuItem onClick={handleCloseMenu}>Log</MenuItem>
+                    <MenuItem onClick={() => setOpenDialog(true)}>Log</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </div>
@@ -113,6 +117,10 @@ function ResponsiveDrawer({ children, routes }: Readonly<ResponsiveDrawerProps>)
         routes={routes}
         setIsClosing={setIsClosing}
         setMobileOpen={setMobileOpen}
+      />
+      <DialogLog
+        onClose={() => setOpenDialog(false)}
+        open={openDialog}
       />
       <Box
         component="main"

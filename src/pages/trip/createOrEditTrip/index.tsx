@@ -22,7 +22,7 @@ const busInit: BusGenerator = {
 const busEnd: BusGenerator = {
     key: new Date(1).getTime().toString(),
 };
-const CreatOrEditTrip = () => {
+const CreateOrEditTrip = () => {
     const { id } = useParams<{ id: string }>();
 
     const { data: initialTripData, isLoading } = useGetTrip(id as string);
@@ -259,4 +259,4 @@ const CreatOrEditTrip = () => {
     );
 };
 
-export default CreatOrEditTrip;
+export default CreateOrEditTrip;

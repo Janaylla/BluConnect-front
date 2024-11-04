@@ -26,6 +26,7 @@ export default function ListBusRoute() {
       useGetData={useGetListBusRoute}
       useDelete={useDeleteBusRoute}
       path="bus-route"
+      existeEdit={true}
     />
   );
 }

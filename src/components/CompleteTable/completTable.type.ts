@@ -13,7 +13,7 @@ export interface QuerySearch {
     rows: Array<Type>;
     count: number;
   }
-  export type CompleteTableColumnTypes = 'quantity' | 'time' | 'text' | 'week'
+  export type CompleteTableColumnTypes = 'quantity' | 'time' | 'text'| 'date' | 'week'
   export interface CompleteTableColumn {
     title: string;
     key: string;
@@ -27,7 +27,10 @@ export interface QuerySearch {
   export interface CompleteTableProps<Type> {
     useGetData: (query: QuerySearch) => UseQueryResult<OutputData<Type>, unknown>;
     columns: Array<CompleteTableColumn>;
-    useDelete: () => UseMutationResult<any, unknown, number, unknown>;
+    useDelete?: () => UseMutationResult<any, unknown, number, unknown>;
+    existeEdit?: boolean;
+    existeDelete?: boolean;
     path: string;
     commonUser?: boolean;
+    showFilter?: boolean;
   }

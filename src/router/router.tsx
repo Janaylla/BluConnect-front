@@ -5,7 +5,9 @@ import ListBusStop from "../pages/busStop/listBusStop";
 import ListTrip from "../pages/trip/listTrip";
 import CreateOrEditTravelSchedule from "../pages/travelSchedule/createOrEditTravelSchedule";
 import ListTravelSchedule from "../pages/travelSchedule/listTravelSchedule";
-import CreatOrEditTrip from "../pages/trip/createOrEditTrip";
+import CreateOrEditTrip from "../pages/trip/createOrEditTrip";
+import ListUser from "../pages/user/listUser";
+import CreateOrEditUser from "../pages/user/createOrEditUser";
 export interface CustomRoute {
   path: string;
   Component: () => JSX.Element;
@@ -64,13 +66,13 @@ const routes: CustomRouteMain[] = [
       },
       {
         path: "trip/edit/:id",
-        Component: CreatOrEditTrip,
+        Component: CreateOrEditTrip,
         label: "Editar Viagens de Ônibus",
         showInMenu: false,
       },
       {
         path: "trip/create",
-        Component: CreatOrEditTrip,
+        Component: CreateOrEditTrip,
         label: "Criar Viagens de Ônibus",
         showInMenu: true,
       },
@@ -92,6 +94,18 @@ const routes: CustomRouteMain[] = [
         label: "Criar Horário dos Ônibus",
         showInMenu: true,
       },
+      {
+        path: 'user',
+        Component: ListUser,
+        label: "Usuários",
+        showInMenu: true,
+      },
+      {
+        path: 'user/create',
+        Component: CreateOrEditUser,
+        label: "Criar Usuário",
+        showInMenu: true,
+      }
     ],
   },
 ];

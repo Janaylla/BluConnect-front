@@ -7,6 +7,7 @@ import { FilterTime, filterTimeConvertLabel, filterTimeRemove } from './FilterTy
 import FilterWeek, { filterWeekConvertLabel, filterWeekRemove } from './FilterTypes/FilterWeek';
 import { CompleteTableColumn, CompleteTableColumnTypes } from './completTable.type';
 import { FilterTypesProps } from './FilterTypes/filterTypes.type';
+import { FilterDate, filterDateConvertLabel, filterDateRemove } from './FilterTypes/FilterDate';
 
 
 interface FilterButtonProps {
@@ -40,6 +41,11 @@ const componentes: Record<CompleteTableColumnTypes, {
         Component: FilterWeek,
         tranformLabel: filterWeekConvertLabel,
         removeFilter: filterWeekRemove,
+    },
+    date: {
+        Component: FilterDate,
+        tranformLabel: filterDateConvertLabel,
+        removeFilter: filterDateRemove,
     }
 }
 

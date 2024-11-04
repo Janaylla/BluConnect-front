@@ -71,6 +71,7 @@ export default function ListTravelSchedule({
       useDelete={useDeleteTravelSchedule}
       path="travel-schedule"
       commonUser={commonUser}
+      existeEdit={true}
     />
   );
 }

@@ -27,6 +27,7 @@ export default function ListBusStop() {
       useGetData={useGetListBusStop}
       useDelete={useDeleteBusStop}
       path="bus-stop"
+      existeEdit={true}
     />
   );
 }

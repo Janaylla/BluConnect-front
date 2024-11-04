@@ -4,16 +4,17 @@ import Dialog from "@mui/material/Dialog";
 import { Box } from "@mui/material";
 import { Delete, X } from "@mui/icons-material";
 import { useState } from "react";
+import { UseMutationResult } from "react-query";
 
 export interface SimpleDialogProps {
   idDelete?: number;
   onClose: () => void;
-  onDeleted: (id: number) => void;
+  useDelete: (() => UseMutationResult<any, unknown, number, unknown>)
 }
 
 export default function DialogDelete(props: SimpleDialogProps) {
-  const { onClose, idDelete, onDeleted } = props;
-
+  const { onClose, idDelete, useDelete } = props;
+  const { mutate: onDeleted } = useDelete();
   return (
     <Dialog onClose={onClose} open={!!idDelete}>
       <DialogTitle>Tem certeza que deseja excluir?</DialogTitle>

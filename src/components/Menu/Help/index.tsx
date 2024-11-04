@@ -31,7 +31,6 @@ export function Help({ onClose, open }: HelpProp) {
   };
   const [tabs, setTabs] = useState<JSX.Element[]>([]);
   const [customTabPanel, setCustomTabPanel] = useState<JSX.Element[]>([]);
-
   useEffect(() => {
     const newTabs: JSX.Element[] = [];
     const newCustomTabPanel: JSX.Element[] = [];

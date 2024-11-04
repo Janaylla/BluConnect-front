@@ -31,6 +31,7 @@ export default function ListTrip() {
       useGetData={useGetListTrip}
       useDelete={useDeleteTrip}
       path="trip"
+      existeEdit={true}
     />
   );
 }

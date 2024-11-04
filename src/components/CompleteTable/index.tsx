@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box, IconButton, Pagination } from "@mui/material";
-import {  Delete, Edit } from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 
 import { useState } from "react";
 import DialogDelete, { useDialogDelete } from "../DialogDelete";
@@ -21,9 +21,11 @@ export default function CompleteTable<Type>({
   useGetData,
   path,
   commonUser,
+  existeEdit = true,
+  showFilter = true,
+  existeDelete = true
 }: CompleteTableProps<Type>) {
   const [page, setPage] = useState(1);
-  const { mutate: _delete } = useDelete();
   const handleChange = (__: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
@@ -47,12 +49,12 @@ export default function CompleteTable<Type>({
   return (
     <Box width={'100%'} position={'relative'}>
       <Box gap={"10px"} display={"flex"} flexDirection={"column"} alignItems={"center"} overflow='auto'>
-        <Filter
+        {showFilter && <Filter
           handleClose={handleClose}
           columns={columns}
           setSearchs={setSearchs}
           searchs={searchs}
-        />
+        />}
 
 
         <TableContainer component={Paper}>
@@ -82,14 +84,14 @@ export default function CompleteTable<Type>({
                       </TableCell>
                     );
                   })}
-                  {!commonUser && (
+                  {!commonUser && (existeEdit || existeDelete) && (
                     <TableCell align="right">
-                      <IconButton aria-label="edit" href={`./${path}/edit/${line.id}`}>
+                      {existeEdit && <IconButton aria-label="edit" href={`./${path}/edit/${line.id}`}>
                         <Edit />
-                      </IconButton>
-                      <IconButton aria-label="delete" onClick={() => handleOpen(line.id)}>
+                      </IconButton>}
+                      {existeDelete && useDelete && <IconButton aria-label="delete" onClick={() => handleOpen(line.id)}>
                         <Delete />
-                      </IconButton>
+                      </IconButton>}
                     </TableCell>
                   )}
                 </TableRow>
@@ -103,11 +105,11 @@ export default function CompleteTable<Type>({
           page={page}
           onChange={handleChange}
         />
-        <DialogDelete
+        {useDelete && <DialogDelete
           idDelete={idDelete}
-          onDeleted={_delete}
+          useDelete={useDelete}
           onClose={handleClose}
-        />
+        />}
       </Box>
     </Box>
   );
